@@ -14,6 +14,9 @@
       <router-link class="link" to="/">发现</router-link>
       <router-link class="link" to="/">我的</router-link>
     </div>
+    <div class="ri ght">
+      <SearchInp />
+    </div>
   </nav>
 </template>
  
@@ -113,9 +116,10 @@ nav {
       transform: scale(0.95);
     }
   }
+
   .router-link-active {
-      background-color: $mainColor;
-      color: var(--n-color);
-    }
+    background-color: $mainColor;
+    color: var(--n-color);
+  }
 }
 </style>
