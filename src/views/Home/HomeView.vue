@@ -1,11 +1,34 @@
 <template>
   <div class="home">
     <Banner />
+    <!-- 个性化推荐 -->
+    <n-h3 class="title" prefix="bar">专属推荐</n-h3>
+    <n-grid class="recommendation" cols="4" item-responsive x-gap="20">
+      <n-grid-item span="1 950:2">
+        <PaDailySongs/>
+      </n-grid-item>
+      </n-grid>
   </div>
 </template>
  
 <script setup>
+import PaDailySongs from "@/components/Personalized/PaDailySongs.vue";
 </script>
  
 <style lang="scss" scoped>
+.hom {
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 16px;
+  }
+
+  :deep(.recommendation) {
+    @media (max-width: 750px) {
+      grid-template-columns: repeat(1, minmax(0px, 1fr)) !important;
+      gap: 20px 0 !important;
+    }
+  }
+}
 </style>
