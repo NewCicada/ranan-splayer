@@ -8,11 +8,14 @@
         <PaDailySongs/>
       </n-grid-item>
       </n-grid>
+      <!-- 公共推荐 -->
+      <PaPlayLists/>
   </div>
 </template>
  
 <script setup>
 import PaDailySongs from "@/components/Personalized/PaDailySongs.vue";
+import PaPlayLists from '@/components/Personalized/PaPlayLists.vue'
 </script>
  
 <style lang="scss" scoped>
