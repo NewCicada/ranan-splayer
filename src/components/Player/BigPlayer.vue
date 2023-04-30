@@ -1,11 +1,12 @@
 <template>
-  <div class="home">
-    <Banner />
+  <div>
+ 
   </div>
 </template>
  
 <script setup>
 </script>
  
-<style lang="scss" scoped>
+<style>
+ 
 </style>
