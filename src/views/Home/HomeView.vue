@@ -5,17 +5,21 @@
     <n-h3 class="title" prefix="bar">专属推荐</n-h3>
     <n-grid class="recommendation" cols="4" item-responsive x-gap="20">
       <n-grid-item span="1 950:2">
-        <PaDailySongs/>
+        <PaDailySongs />
       </n-grid-item>
-      </n-grid>
-      <!-- 公共推荐 -->
-      <PaPlayLists/>
+      <n-grid-item span="3 950:2">
+        <PaPersonalFm />
+      </n-grid-item>
+    </n-grid>
+    <!-- 公共推荐 -->
+    <PaPlayLists />
   </div>
 </template>
  
 <script setup>
 import PaDailySongs from "@/components/Personalized/PaDailySongs.vue";
 import PaPlayLists from '@/components/Personalized/PaPlayLists.vue'
+import PaPersonalFm from "@/components/Personalized/PaPersonalFm.vue";
 </script>
  
 <style lang="scss" scoped>
