@@ -14,6 +14,7 @@
     <!-- 公共推荐 -->
     <PaPlayLists />
     <PaArtists/>
+    <PaAlbum />
   </div>
 </template>
  
@@ -22,6 +23,7 @@ import PaDailySongs from "@/components/Personalized/PaDailySongs.vue";
 import PaPlayLists from '@/components/Personalized/PaPlayLists.vue'
 import PaPersonalFm from "@/components/Personalized/PaPersonalFm.vue";
 import PaArtists from "@/components/Personalized/PaArtists.vue";
+import PaAlbum from "@/components/Personalized/PaAlbum.vue";
 </script>
  
 <style lang="scss" scoped>
