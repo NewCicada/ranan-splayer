@@ -13,6 +13,7 @@
     </n-grid>
     <!-- 公共推荐 -->
     <PaPlayLists />
+    <PaArtists/>
   </div>
 </template>
  
@@ -20,6 +21,7 @@
 import PaDailySongs from "@/components/Personalized/PaDailySongs.vue";
 import PaPlayLists from '@/components/Personalized/PaPlayLists.vue'
 import PaPersonalFm from "@/components/Personalized/PaPersonalFm.vue";
+import PaArtists from "@/components/Personalized/PaArtists.vue";
 </script>
  
 <style lang="scss" scoped>

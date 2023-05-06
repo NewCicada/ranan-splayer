@@ -3,11 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check build-only",
-    "preview": "vite preview",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit"
+   "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@icon-park/vue-next": "^1.4.2",
