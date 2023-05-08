@@ -5,14 +5,14 @@
         <img src="/images/logo/favicon.svg" alt="logo">
       </div>
       <div class="controls">
-        <n-icon size="26" :component="NavigateBeforeFilled" @click="router.go(-1)" />
-        <n-icon size="26" :component="NavigateNextFilled" @click="router.go(1)" />
+        <n-icon size="26" :component="NavigateBeforeFilled" @click="$router.go(-1)" />
+        <n-icon size="26" :component="NavigateNextFilled" @click="$router.go(1)" />
       </div>
     </div>
     <div class="center">
-      <router-link class="link" to="/">首页</router-link>
-      <router-link class="link" to="/">发现</router-link>
-      <router-link class="link" to="/">我的</router-link>
+      <RouterLink class="link" to="/">首页</RouterLink>
+      <RouterLink class="link" to="/">发现</RouterLink>
+      <RouterLink class="link" to="/">我的</RouterLink>
     </div>
     <div class="ri ght">
       <SearchInp />

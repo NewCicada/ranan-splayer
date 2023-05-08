@@ -1,15 +1,36 @@
 <template>
   <div class="searchInp">
-    <n-input :class="inputActive ? 'input focus' : 'input'" round clearable placeholder="音乐/视频/电台/用户"
-      v-model:value="inputValue" @focus="inputFocus" @keydown="inputkeydown($event)" @click.stop>
+    <n-input
+      :class="inputActive ? 'input focus' : 'input'"
+      round
+      clearable
+      placeholder="音乐/视频/电台/用户"
+      v-model:value="inputValue"
+      @focus="inputFocus"
+      @keydown="inputkeydown($event)"
+      @click.stop
+    >
       <template #prefix>
-        <n-icon size="20" :color="inputActive ? '#f55e55' : ''" :component="SearchFilled" />
+        <n-icon
+          size="20"
+          :color="inputActive ? '#f55e55' : ''"
+          :component="SearchFilled"
+        />
       </template>
     </n-input>
     <CollapseTransition easing="ease-in-out">
-      <n-card class="list" v-show="inputActive && !inputValue && searchData.hot[0]" content-style="padding: 0">
+      <n-card
+        class="list"
+        v-show="inputActive && !inputValue && searchData.hot[0]"
+        content-style="padding: 0"
+      >
         <n-scrollbar>
-          <div class="hot-item" v-for="(item, index) in searchData.hot" :key="item" @click="toSearch(item.searchWord, 0)">
+          <div
+            class="hot-item"
+            v-for="(item, index) in searchData.hot"
+            :key="item"
+            @click="toSearch(item.searchWord, 0)"
+          >
             <div :class="index < 3 ? 'num hot' : 'num'">{{ index + 1 }}</div>
             <div class="title">
               <span class="name" v-if="item.iconUrl">
@@ -26,9 +47,16 @@
       </n-card>
     </CollapseTransition>
     <CollapseTransition easing="ease-in-out">
-      <n-card class="list" v-show="inputActive && inputValue && searchData.suggest" content-style="padding: 0">
+      <n-card
+        class="list"
+        v-show="inputActive && inputValue && searchData.suggest"
+        content-style="padding: 0"
+      >
         <n-scrollbar>
-          <div class="suggest-tip" v-if="JSON.stringify(searchData.suggest) == '{}'">
+          <div
+            class="suggest-tip"
+            v-if="JSON.stringify(searchData.suggest) == '{}'"
+          >
             <n-icon size="22" :component="SearchOffFilled" />
             <span>暂无搜索结果</span>
           </div>
@@ -42,32 +70,52 @@
                 <n-icon size="18" :component="MusicNoteFilled" />
                 <span class="name">单曲</span>
               </div>
-              <span class="names" v-for="songs in searchData.suggest.songs" :key="songs" @click="toSearch(songs.id, 1)">{{
-                songs.name }} - {{ songs.artists[0].name }}</span>
+              <span
+                class="names"
+                v-for="songs in searchData.suggest.songs"
+                :key="songs"
+                @click="toSearch(songs.id, 1)"
+                >{{ songs.name }} - {{ songs.artists[0].name }}</span
+              >
             </div>
             <div class="suggest-item" v-if="searchData.suggest.artists">
               <div class="type">
                 <n-icon size="18" :component="MicFilled" />
                 <span class="name">歌手</span>
               </div>
-              <span class="names" v-for="artists in searchData.suggest.artists" :key="artists"
-                @click="toSearch(artists.id, 100)">{{ artists.name }}</span>
+              <span
+                class="names"
+                v-for="artists in searchData.suggest.artists"
+                :key="artists"
+                @click="toSearch(artists.id, 100)"
+                >{{ artists.name }}</span
+              >
             </div>
             <div class="suggest-item" v-if="searchData.suggest.albums">
               <div class="type">
                 <n-icon size="18" :component="AlbumSharp" />
                 <span class="name">专辑</span>
               </div>
-              <span class="names" v-for="albums in searchData.suggest.albums" :key="albums"
-                @click="toSearch(albums.id, 10)">{{ albums.name }} - {{ albums.artist.name }}</span>
+              <span
+                class="names"
+                v-for="albums in searchData.suggest.albums"
+                :key="albums"
+                @click="toSearch(albums.id, 10)"
+                >{{ albums.name }} - {{ albums.artist.name }}</span
+              >
             </div>
             <div class="suggest-item" v-if="searchData.suggest.playlists">
               <div class="type">
                 <n-icon size="18" :component="PlaylistPlayFilled" />
                 <span class="name">歌单</span>
               </div>
-              <span class="names" v-for="playlists in searchData.suggest.playlists" :key="playlists"
-                @click="toSearch(playlists.id, 1000)">{{ playlists.name }}</span>
+              <span
+                class="names"
+                v-for="playlists in searchData.suggest.playlists"
+                :key="playlists"
+                @click="toSearch(playlists.id, 1000)"
+                >{{ playlists.name }}</span
+              >
             </div>
           </div>
         </n-scrollbar>
@@ -75,9 +123,9 @@
     </CollapseTransition>
   </div>
 </template>
- 
+
 <script setup>
-import { getSearchHot, getSearchSuggest } from '@/api'
+import { getSearchHot, getSearchSuggest } from "@/api";
 import {
   SearchFilled,
   MusicNoteFilled,
@@ -87,9 +135,9 @@ import {
   SearchOffFilled,
   ManageSearchFilled,
 } from "@vicons/material";
-import { musicStore } from '@/store'
 import CollapseTransition from "@ivanv/vue-collapse-transition/src/CollapseTransition.vue";
-
+import debounce from "@/utils/debounce";
+import { musicStore } from "@/store";
 const router = useRouter();
 const music = musicStore();
 
@@ -105,6 +153,7 @@ const inputFocus = () => {
   music.showPlayList = false;
   getSearchHotData();
 };
+
 // 搜索相关数据
 let searchData = reactive({
   hot: [], // 热搜
@@ -114,7 +163,7 @@ let searchData = reactive({
 // 获取搜索相关数据
 const getSearchHotData = () => {
   getSearchHot().then((res) => {
-    searchData.hot = res.data
+    searchData.hot = res.data;
   });
 };
 const getSearchSuggestData = (keywords) => {
@@ -124,11 +173,12 @@ const getSearchSuggestData = (keywords) => {
     searchData.suggest = res.result;
   });
 };
+
 // 点击搜索结果
 const toSearch = (val, type) => {
-  switch ((type)) {
+  switch (type) {
     case 0:
-      //  直接搜索
+      // 直接搜索
       inputValue.value = val;
       router.push(`/search/songs?keywords=${val}`);
       break;
@@ -152,6 +202,7 @@ const toSearch = (val, type) => {
       break;
   }
 };
+
 // 回车搜索
 const inputkeydown = (e) => {
   if (e.key === "Enter" && inputValue.value != null) {
@@ -165,6 +216,7 @@ const inputkeydown = (e) => {
     });
   }
 };
+
 onMounted(() => {
   // 获取热搜
   getSearchHotData();
@@ -173,44 +225,155 @@ onMounted(() => {
     inputActive.value = false;
   });
 });
+
+onUnmounted(() => {
+  document.removeEventListener("click", () => {
+    inputActive.value = false;
+  });
+});
+
 // 监听输入框内容
-watch(() => inputValue.value,
+watch(
+  () => inputValue.value,
   (value) => {
     if (value.trim()) {
       debounce(() => {
         console.log(value.trim());
-        getSearchSuggestData(value.trim())
+        getSearchSuggestData(value.trim());
       }, 500);
     }
-  });
+  }
+);
 </script>
- 
+
 <style lang="scss" scoped>
 .searchInp {
   position: relative;
   width: 100%;
   display: flex;
   justify-content: flex-end;
-
   .input {
     width: 200px;
     transition: all 0.3s;
-
     &.focus {
       width: 280px;
-
       :deep(input) {
         color: $mainColor;
       }
     }
   }
-
   .list {
     position: absolute;
     top: 40px;
     right: 0;
     border-radius: 8px;
     width: 280px;
+    z-index: 3;
+    :deep(.n-scrollbar) {
+      max-height: 80vh;
+      .n-scrollbar-rail {
+        width: 0;
+      }
+      .n-scrollbar-content {
+        padding: 12px;
+        .hot-item {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-bottom: 8px;
+          cursor: pointer;
+          border-radius: 8px;
+          padding: 6px;
+          transition: all 0.3s;
+
+          &:nth-last-of-type(1) {
+            margin-bottom: 0;
+          }
+
+          &:hover {
+            background-color: var(--n-border-color);
+          }
+          .num {
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            text-align: center;
+            line-height: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 8px;
+            &.hot {
+              color: #ff5656;
+            }
+          }
+          .title {
+            display: flex;
+            flex-direction: column;
+            .name {
+              font-size: 16px;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              img {
+                height: 16px;
+                width: auto;
+                margin-left: 6px;
+                margin-bottom: 2px;
+              }
+            }
+            .tip {
+              font-size: 12px;
+            }
+          }
+        }
+        .suggest-tip {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+        }
+        .suggest-all {
+          .loading {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            .n-icon {
+              margin-bottom: 4px;
+            }
+          }
+          .suggest-item {
+            margin-bottom: 12px;
+            &:nth-last-of-type(1) {
+              margin-bottom: 0;
+            }
+            .type {
+              color: #ff5656;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-bottom: 4px;
+              .n-icon {
+                margin-bottom: 2px;
+              }
+              .name {
+                margin-left: 4px;
+              }
+            }
+            .names {
+              display: block;
+              padding: 14px 18px 14px 22px;
+              cursor: pointer;
+              transition: all 0.3s;
+              border-radius: 8px;
+              &:hover {
+                background-color: var(--n-border-color);
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 </style>
