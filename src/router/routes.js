@@ -1,6 +1,7 @@
 import HomeView from '@/views/Home/HomeView.vue'
 import SearchView from '@/views/Search/index.vue'
 import comment from '@/views/Comment/index.vue'
+import Setting from '@/views/Setting/SettingView.vue'
 const routes = [
   {
     path: '/',
@@ -53,6 +54,14 @@ const routes = [
       title: '歌曲评论',
     },
     component: comment,
+  },
+  {
+    path: '/setting',
+    name: 'setting',
+    meta: {
+      title: '全局设置',
+    },
+    component:Setting,
   },
 ]
 
