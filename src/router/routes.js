@@ -2,6 +2,9 @@ import HomeView from '@/views/Home/HomeView.vue'
 import SearchView from '@/views/Search/index.vue'
 import comment from '@/views/Comment/index.vue'
 import Setting from '@/views/Setting/SettingView.vue'
+import LoginView from '@/views/Login/LoginView.vue'
+import UserView from '@/views/User/UserView.vue'
+
 const routes = [
   {
     path: '/',
@@ -62,6 +65,23 @@ const routes = [
       title: '全局设置',
     },
     component: Setting,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    meta: {
+      title: '登录',
+    },
+    component: LoginView,
+  },
+  {
+    path: '/user',
+    name: 'user',
+    meta: {
+      title: '我的',
+      needLogin: true,
+    },
+    component:UserView
   },
 ]
 
