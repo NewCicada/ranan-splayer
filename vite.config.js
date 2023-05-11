@@ -12,9 +12,7 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 export default ({ mode }) =>
   defineConfig({
     plugins: [
-      // ⚠️ Vue must be placed after VueRouter()
       vue(),
-      'vue',
       {
         'naive-ui': [
           'useDialog',

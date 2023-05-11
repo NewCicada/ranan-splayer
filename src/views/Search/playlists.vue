@@ -23,7 +23,7 @@ let pageNumber = ref(
     ? Number(router.currentRoute.value.query.page)
     : 1
 );
-·
+
 // 获取搜索数据
 const getSearchDataList = (keywords, limit = 30, offset = 0, type = 1000) => {
   getSearchData(keywords, limit, offset, type).then((res) => {
