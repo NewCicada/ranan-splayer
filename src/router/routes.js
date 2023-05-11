@@ -61,7 +61,7 @@ const routes = [
     meta: {
       title: '全局设置',
     },
-    component:Setting,
+    component: Setting,
   },
 ]
 
