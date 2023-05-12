@@ -4,6 +4,7 @@ import comment from '@/views/Comment/index.vue'
 import Setting from '@/views/Setting/SettingView.vue'
 import LoginView from '@/views/Login/LoginView.vue'
 import UserView from '@/views/User/UserView.vue'
+import VideoView from '@/views/Video/VideoView.vue'
 
 const routes = [
   {
@@ -75,13 +76,21 @@ const routes = [
     component: LoginView,
   },
   {
+    path: '/video',
+    name: 'video',
+    meta: {
+      title: '视频',
+    },
+    component: VideoView,
+  },
+  {
     path: '/user',
     name: 'user',
     meta: {
       title: '我的',
       needLogin: true,
     },
-    component:UserView
+    component: UserView,
   },
 ]
 
