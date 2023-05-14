@@ -11,8 +11,8 @@
     </div>
     <div class="center">
       <RouterLink class="link" to="/">首页</RouterLink>
-      <RouterLink class="link" to="/">发现</RouterLink>
-      <RouterLink class="link" to="/">我的</RouterLink>
+      <RouterLink class="link" to="/discover">发现</RouterLink>
+      <RouterLink class="link" to="/user">我的</RouterLink>
     </div>
     <div class="right">
       <SearchInp />

@@ -5,6 +5,8 @@ import Setting from '@/views/Setting/SettingView.vue'
 import LoginView from '@/views/Login/LoginView.vue'
 import UserView from '@/views/User/UserView.vue'
 import VideoView from '@/views/Video/VideoView.vue'
+import DiscoverView from '@/views/Discover/DiscoverView.vue'
+import PlayListView from '@/views/PlayList/PlayListView.vue'
 
 const routes = [
   {
@@ -82,6 +84,22 @@ const routes = [
       title: '视频',
     },
     component: VideoView,
+  },
+  {
+    path: '/discover',
+    name: 'discover',
+    meta: {
+      title: '发现',
+    },
+    component: DiscoverView,
+  },
+  {
+    path:'/playlist',
+    name:'playlist',
+    meta:{
+      title:'歌单',
+    },
+    component:PlayListView,
   },
   {
     path: '/user',
