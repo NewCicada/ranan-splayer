@@ -174,7 +174,6 @@ import { PlayCycle, PlayOnce, ShuffleOne } from "@icon-park/vue-next";
 import { storeToRefs } from "pinia";
 import { musicStore, userStore } from "@/store/index";
 import { getSongPlayingTime } from "@/utils/timeTools.js";
-import { useRouter } from "vue-router";
 import AllArtists from "@/components/DataList/AllArtists.vue";
 import PlayList from "@/components/DataList/PlayList.vue";
 import BigPlayer from "./BigPlayer.vue";

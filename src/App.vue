@@ -24,7 +24,6 @@
 
 <script setup>
 import { musicStore, userStore } from "@/store/index";
-import { useRouter } from "vue-router";
 import { getLoginState } from "@/api";
 
 const music = musicStore();

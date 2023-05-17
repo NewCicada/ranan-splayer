@@ -7,9 +7,6 @@ import UserView from '@/views/User/UserView.vue'
 import VideoView from '@/views/Video/VideoView.vue'
 import DiscoverView from '@/views/Discover/DiscoverView.vue'
 import PlayListView from '@/views/PlayList/PlayListView.vue'
-import SongView from '@/views/Song/SongView.vue'
-import dailySongView from '@/views/DailySongs/DailySongs.vue'
-import AlbumView from '@/views/Album/AlbumView.vue'
 
 const routes = [
   {
@@ -97,37 +94,12 @@ const routes = [
     component: DiscoverView,
   },
   {
-    path: '/playlist',
-    name: 'playlist',
-    meta: {
-      title: '歌单',
+    path:'/playlist',
+    name:'playlist',
+    meta:{
+      title:'歌单',
     },
-    component: PlayListView,
-  },
-  {
-    path: '/song',
-    name: 'song',
-    meta: {
-      title: '歌曲',
-    },
-    component: SongView,
-  },
-  {
-    path: '/dailySongs',
-    name: 'dailySong',
-    meta: {
-      title: '每日推荐',
-      needLogin: true,
-    },
-    component: dailySongView,
-  },
-  {
-    path: '/album',
-    name: 'album',
-    meta: {
-      title: '专辑',
-    },
-    component: AlbumView,
+    component:PlayListView,
   },
   {
     path: '/user',

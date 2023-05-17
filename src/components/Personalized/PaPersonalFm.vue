@@ -42,7 +42,6 @@ import {
   RadioFilled,
 } from "@vicons/material";
 import { musicStore, userStore } from "@/store";
-import { useRouter } from "vue-router";
 
 const music = musicStore();
 const user = userStore();

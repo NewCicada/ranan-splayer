@@ -67,7 +67,6 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
 import { musicStore } from "@/store/index";
 import { getVideoDetail, getVideoUrl, getSimiVideo, getComment } from "@/api";
 import { formatNumber, getSongTime } from "@/utils/timeTools.js";

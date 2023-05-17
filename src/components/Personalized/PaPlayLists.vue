@@ -14,7 +14,6 @@
 
 <script setup>
 import { getPersonalized } from "@/api";
-import { useRouter } from "vue-router";
 import { formatNumber } from "@/utils/timeTools.js";
 import CoverLists from "@/components/DataList/CoverLists.vue";
 const router = useRouter();
