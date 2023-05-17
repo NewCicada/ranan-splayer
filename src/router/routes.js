@@ -7,6 +7,7 @@ import UserView from '@/views/User/UserView.vue'
 import VideoView from '@/views/Video/VideoView.vue'
 import DiscoverView from '@/views/Discover/DiscoverView.vue'
 import PlayListView from '@/views/PlayList/PlayListView.vue'
+import SongView from '@/views/Song/SongView.vue'
 
 const routes = [
   {
@@ -94,12 +95,20 @@ const routes = [
     component: DiscoverView,
   },
   {
-    path:'/playlist',
-    name:'playlist',
-    meta:{
-      title:'歌单',
+    path: '/playlist',
+    name: 'playlist',
+    meta: {
+      title: '歌单',
     },
-    component:PlayListView,
+    component: PlayListView,
+  },
+  {
+    path: '/song',
+    name: 'song',
+    meta: {
+      title: '歌曲',
+    },
+    component: SongView,
   },
   {
     path: '/user',
