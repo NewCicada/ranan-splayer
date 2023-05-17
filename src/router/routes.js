@@ -8,6 +8,7 @@ import VideoView from '@/views/Video/VideoView.vue'
 import DiscoverView from '@/views/Discover/DiscoverView.vue'
 import PlayListView from '@/views/PlayList/PlayListView.vue'
 import SongView from '@/views/Song/SongView.vue'
+import dailySongView from '@/views/DailySongs/DailySongs.vue'
 
 const routes = [
   {
@@ -109,6 +110,15 @@ const routes = [
       title: '歌曲',
     },
     component: SongView,
+  },
+  {
+    path: '/dailySongs',
+    name: 'dailySong',
+    meta: {
+      title: '每日推荐',
+      needLogin: true,
+    },
+    component: dailySongView,
   },
   {
     path: '/user',
