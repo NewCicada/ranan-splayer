@@ -9,6 +9,7 @@ import DiscoverView from '@/views/Discover/DiscoverView.vue'
 import PlayListView from '@/views/PlayList/PlayListView.vue'
 import SongView from '@/views/Song/SongView.vue'
 import dailySongView from '@/views/DailySongs/DailySongs.vue'
+import AlbumView from '@/views/Album/AlbumView.vue'
 
 const routes = [
   {
@@ -121,6 +122,14 @@ const routes = [
     component: dailySongView,
   },
   {
+    path: '/album',
+    name: 'album',
+    meta: {
+      title: '专辑',
+    },
+    component: AlbumView,
+  },
+  {
     path: '/user',
     name: 'user',
     meta: {
@@ -128,6 +137,45 @@ const routes = [
       needLogin: true,
     },
     component: UserView,
+    redirect: '/user/playlists',
+    children: [
+      {
+        path: 'playlists',
+        name: 'playlists',
+        component: () => import('@/views/User/playlists.vue'),
+      },
+      {
+        path: 'cloud',
+        name: 'cloud',
+        component: () => import('@/views/User/cloud.vue'),
+      },
+    ],
+  },
+  {
+    path: '/artist',
+    name: 'artist',
+    meta: {
+      title: '歌手',
+    },
+    component: () => import('@/views/Artist/index.vue'),
+    redirect: '/artist/songs',
+    children: [
+      {
+        path: 'songs',
+        name: 'ar-songs',
+        component: () => import('@/views/Artist/songs.vue'),
+      },
+      {
+        path: 'albums',
+        name: 'ar-albums',
+        component: () => import('@/views/Artist/albums.vue'),
+      },
+      {
+        path: 'videos',
+        name: 'ar-videos',
+        component: () => import('@/views/Artist/videos.vue'),
+      },
+    ],
   },
 ]
 
