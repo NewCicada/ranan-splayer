@@ -1,10 +1,10 @@
 <template>
-  <div class="padailysongs">
+  <div class="padailysongs" @click="router.push('/dailySongs')">
     <img class="pic" :src="music.getDailySongs[0]
-      ? music.getDailySongs[
-        Math.floor(Math.random() * music.getDailySongs.length)
-      ].album.picUrl.replace(/^http:/, 'https:') + '?param=800y800'
-      : '/images/pic/pic.jpg'
+        ? music.getDailySongs[
+          Math.floor(Math.random() * music.getDailySongs.length)
+        ].album.picUrl.replace(/^http:/, 'https:') + '?param=800y800'
+        : '/images/pic/pic.jpg'
       " alt="pic" />
     <div class="text">
       <span class="title">每日推荐</span>
@@ -12,7 +12,7 @@
     </div>
   </div>
 </template>
- 
+
 <script setup>
 import { getDailySongs } from "@/api";
 import { musicStore, userStore } from "@/store";
@@ -36,7 +36,7 @@ onMounted(() => {
   if (music.getDailySongs.length === 0 && user.userLogin) getDailySongsData();
 });
 </script>
- 
+
 <style lang="scss" scoped>
 .padailysongs {
   position: relative;
@@ -51,15 +51,18 @@ onMounted(() => {
   z-index: 0;
   transition: all 0.3s;
   cursor: pointer;
+
   &:hover {
     .pic {
       transform: translateY(calc(-50% + 13vh)) scale(1.2);
       filter: brightness(50%);
     }
   }
+
   &:active {
     transform: scale(0.98);
   }
+
   .pic {
     transition: all 0.3s;
     position: absolute;
@@ -69,28 +72,31 @@ onMounted(() => {
     transform: translateY(calc(-50% + 13vh));
     filter: brightness(70%);
     z-index: -1;
+
     @media (min-width: 750px) and (max-width: 1056px) {
       transform: none;
       height: 100%;
     }
   }
+
   .text {
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #fff;
     text-shadow: 0px 0px 8px #00000082;
+
     .title {
       font-size: 34px;
       font-weight: bold;
       margin-bottom: 8px;
       letter-spacing: 2px;
     }
+
     @media (min-width: 750px) and (max-width: 1056px) {
       .tip {
         display: none;
       }
     }
   }
-}
-</style>
+}</style>

@@ -3,9 +3,9 @@
     <div class="detail">
       <div class="pic">
         <n-avatar class="coverImg" :src="musicDetail.al.picUrl
-            ? musicDetail.al.picUrl.replace(/^http:/, 'https:') +
-            '?param=500y500'
-            : null
+          ? musicDetail.al.picUrl.replace(/^http:/, 'https:') +
+          '?param=500y500'
+          : null
           " fallback-src="/images/pic/default.png" />
       </div>
       <div class="right">
