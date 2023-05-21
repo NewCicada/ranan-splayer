@@ -2,16 +2,11 @@
   <div class="playlist" v-if="albumDetail">
     <div class="left">
       <div class="cover">
-        <n-avatar
-          class="coverImg"
-          :src="
-            albumDetail.picUrl
-              ? albumDetail.picUrl.replace(/^http:/, 'https:') +
-                '?param=500y500'
-              : null
-          "
-          fallback-src="/images/pic/default.png"
-        />
+        <n-avatar class="coverImg" :src="albumDetail.picUrl
+            ? albumDetail.picUrl.replace(/^http:/, 'https:') +
+            '?param=500y500'
+            : null
+          " fallback-src="/images/pic/default.png" />
         <img src="/images/pic/album.png" class="album" alt="album" />
       </div>
       <div class="intr">
@@ -19,35 +14,19 @@
         <span class="desc text-hidden">
           {{ albumDetail.description }}
         </span>
-        <n-button
-          block
-          strong
-          secondary
-          v-if="albumDetail.description && albumDetail.description.length > 70"
-          @click="albumDescShow = true"
-        >
+        <n-button block strong secondary v-if="albumDetail.description && albumDetail.description.length > 70"
+          @click="albumDescShow = true">
           全部简介
         </n-button>
-        <n-modal
-          v-model:show="albumDescShow"
-          preset="card"
-          style="width: 60vw; min-width: min(24rem, 100vw)"
-          title="歌单简介"
-          :bordered="false"
-        >
+        <n-modal v-model:show="albumDescShow" preset="card" style="width: 60vw; min-width: min(24rem, 100vw)" title="歌单简介"
+          :bordered="false">
           <n-scrollbar style="max-height: 60vh">
             {{ albumDetail.description }}
           </n-scrollbar>
         </n-modal>
       </div>
       <div class="tag" v-if="albumDetail.tags">
-        <n-tag
-          class="tags"
-          round
-          :bordered="false"
-          v-for="item in albumDetail.tags"
-          :key="item"
-        >
+        <n-tag class="tags" round :bordered="false" v-for="item in albumDetail.tags" :key="item">
           {{ item }}
         </n-tag>
       </div>
@@ -153,17 +132,21 @@ watch(
 .loading {
   display: flex;
   flex-direction: row;
+
   @media (max-width: 768px) {
     flex-direction: column;
+
     .left {
       margin-bottom: 12px;
       position: static !important;
       width: 60vw !important;
       max-width: none !important;
+
       .intr {
         display: none;
       }
     }
+
     .right {
       .meta {
         .name {
@@ -172,6 +155,7 @@ watch(
       }
     }
   }
+
   .left {
     width: 40vw;
     height: 100%;
@@ -183,17 +167,20 @@ watch(
     align-items: flex-start;
     position: sticky;
     top: 24px;
+
     .cover {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: flex-start;
+
       // box-shadow: 0 0 16px 0px rgb(0 0 0 / 20%);
       .n-avatar {
         border-radius: 8px;
         width: 80%;
         height: 80%;
       }
+
       .album {
         height: 100%;
         position: absolute;
@@ -201,70 +188,85 @@ watch(
         right: 4%;
       }
     }
+
     .intr {
       margin-top: 24px;
       width: 80%;
       padding-left: 4px;
+
       .name {
         display: block;
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 12px;
       }
+
       .desc {
         -webkit-line-clamp: 4;
         line-height: 26px;
         margin-bottom: 16px;
       }
     }
+
     .tag {
       margin-top: 20px;
       width: 100%;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
+
       .tags {
         margin-right: 8px;
         font-size: 13px;
       }
     }
   }
+
   .right {
     flex: 1;
+
     .meta {
       display: flex;
       flex-direction: column;
       margin-top: 20px;
       margin-bottom: 20px;
+
       .name {
         font-size: 30px;
         font-weight: bold;
       }
+
       .creator {
         margin-top: 6px;
         font-size: 16px;
         opacity: 0.8;
       }
+
       .time {
         margin-top: 8px;
         display: flex;
         flex-direction: row;
         align-items: center;
+
         @media (max-width: 370px) {
           flex-direction: column;
           align-items: flex-start;
         }
+
         .num {
           color: #999;
         }
+
         div {
           margin-right: 12px;
         }
       }
     }
+
     .datalists {
       :deep(.songs) {
         @media (max-width: 990px) {
+
           .album,
           .time {
             display: none;
@@ -274,19 +276,23 @@ watch(
     }
   }
 }
+
 .title {
   margin-top: 30px;
   margin-bottom: 20px;
   font-size: 24px;
+
   .key {
     font-size: 40px;
     font-weight: bold;
     margin-right: 8px;
   }
 }
+
 .loading {
   .left {
     display: block;
+
     .pic {
       padding-bottom: 100%;
       width: 100%;
@@ -295,10 +301,10 @@ watch(
       margin-bottom: 20px;
     }
   }
+
   .right {
     .n-skeleton {
       margin-bottom: 20px;
     }
   }
-}
-</style>
+}</style>

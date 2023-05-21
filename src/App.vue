@@ -84,27 +84,6 @@ onMounted(() => {
   &.show {
     bottom: 70px;
   }
-
-  .copyright {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
-    margin-bottom: -20px;
-
-    .power {
-      cursor: pointer;
-      transition: all 0.3s;
-
-      &:hover {
-        color: $mainColor;
-      }
-    }
-
-    .version {
-      font-size: 12px;
-    }
-  }
 }
 
 // 路由跳转动画

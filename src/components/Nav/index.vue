@@ -16,6 +16,7 @@
     </div>
     <div class="right">
       <SearchInp />
+      <!-- 下拉菜单 -->
       <n-dropdown class="dropdown" placement="bottom-end" :show="showDropdown" :show-arrow="true"
         :options="dropdownOptions" :on-clickoutside="closeDropdown" @select="dropdownSelect">
         <n-avatar class="avatar" round size="small" :src="user.getUserData.avatarUrl
@@ -169,26 +170,6 @@ let dropdownOptions = ref([
       });
     },
     key: "user",
-    props: {
-      onClick: () => {
-        if (user.userLogin) {
-          // 退出登录
-          $dialog.warning({
-            title: "退出登录",
-            content: "确认退出当前用户登录？",
-            positiveText: "退出",
-            negativeText: "取消",
-            onPositiveClick: () => {
-              user.userLogOut();
-              $message.success("已退出登录");
-            },
-          });
-        } else {
-          // 登录
-          router.push("/login");
-        }
-      },
-    },
     icon: () => {
       return h(
         NIcon,
@@ -214,6 +195,24 @@ const dropdownSelect = (key) => {
     // 设置
     case "setting":
       router.push("/setting");
+      break;
+    case "user":
+      if (user.userLogin) {
+        // 退出登录
+        $dialog.warning({
+          title: "退出登录",
+          content: "确认退出当前用户登录？",
+          positiveText: "退出",
+          negativeText: "取消",
+          onPositiveClick: () => {
+            user.userLogOut();
+            $message.success("已退出登录");
+          },
+        });
+      } else {
+        // 登录
+        router.push("/login");
+      }
       break;
     default:
       break;
