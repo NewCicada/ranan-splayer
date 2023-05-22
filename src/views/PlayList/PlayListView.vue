@@ -22,17 +22,19 @@
             " @click="playListDescShow = true">
           全部简介
         </n-button>
-        <n-modal v-model:show="playListDescShow" preset="card" style="width: 60vw" title="歌单简介" :bordered="false">
+        <n-modal v-model:show="playListDescShow" preset="card" style="width: 60vw; min-width: min(24rem, 100vw)"
+          title="歌单简介" :bordered="false">
           <n-scrollbar style="max-height: 60vh">
             {{ playListDetail.description }}
           </n-scrollbar>
         </n-modal>
       </div>
-      <div class="tag" v-if="playListDetail.tags">
-        <n-tag class="tags" round :bordered="false" v-for="item in playListDetail.tags" :key="item">
+      <n-space class="tag" v-if="playListDetail.tags">
+        <n-tag class="tags" size="large" round :bordered="false" v-for="item in playListDetail.tags" :key="item"
+          @click="router.push(`/discover/playlists?cat=${item}`)">
           {{ item }}
         </n-tag>
-      </div>
+      </n-space>
     </div>
     <div class="right">
       <div class="meta">
@@ -54,14 +56,16 @@
         @pageSizeChange="pageSizeChange" @pageNumberChange="pageNumberChange" />
     </div>
   </div>
-  <div class="title" v-else-if="!PlayListId">
+  <div class="title" v-else-if="!playListId">
     <span class="key">未提供所需数据</span>
     <br />
-    <n-button strong secondary @click="router.go(-1)" style="margin-top: 20px;">返回上一级</n-button>
+    <n-button strong secondary @click="router.go(-1)" style="margin-top: 20px">
+      返回上一级
+    </n-button>
   </div>
   <div class="loading" v-else>
     <div class="left">
-      <n-skeleton class="pic"/>
+      <n-skeleton class="pic" />
       <n-skeleton text :repeat="5" />
       <n-skeleton text style="width: 60%" />
     </div>
@@ -70,8 +74,8 @@
       <n-skeleton height="100%" width="100%" />
     </div>
   </div>
-</template> 
- 
+</template>
+
 <script setup>
 import { getPlayListDetail, getAllPlayList } from "@/api";
 import { getSongTime, getLongTime } from "@/utils/timeTools.js";
@@ -83,9 +87,11 @@ let playListDetail = ref(null);
 let playListData = ref([]);
 let playListDescShow = ref(false);
 let pagelimit = ref(30);
-let pageNumber = ref(router.currentRoute.value.query.page
-  ? Number(router.currentRoute.value.query.page)
-  : 1);
+let pageNumber = ref(
+  router.currentRoute.value.query.page
+    ? Number(router.currentRoute.value.query.page)
+    : 1
+);
 let totalCount = ref(0);
 
 // 获取歌单信息
@@ -123,17 +129,17 @@ const getAllPlayListData = (id, limit = 30, offset = 0) => {
         });
       });
     } else {
-      $message.error("获取歌单所有歌曲失败");
+      $message.error("获取歌单内歌曲失败");
     }
     // 请求后回顶
-    $mainContent.scrollIntoView({ behavior: "smooth" });
+    if ($mainContent) $mainContent.scrollIntoView({ behavior: "smooth" });
   });
 };
 
 onMounted(() => {
   if (playListId.value) {
     getPlayListDetailData(playListId.value);
-    getPlayListDetailData(
+    getAllPlayListData(
       playListId.value,
       pagelimit.value,
       (pageNumber.value - 1) * pagelimit.value
@@ -145,24 +151,24 @@ onMounted(() => {
 const pageSizeChange = (val) => {
   console.log(val);
   pagelimit.value = val;
-  getPlayListDetailData(
+  getAllPlayListData(
     playListId.value,
     val,
     (pageNumber.value - 1) * pagelimit.value
   );
 };
 
-// 当前页面数据变化
+// 当前页数数据变化
 const pageNumberChange = (val) => {
-  router.push(
-    {
-      path: '/playlist',
-      query: {
-        id: playListId.value,
-        page: val,
-      },
-    });
+  router.push({
+    path: "/playlist",
+    query: {
+      id: playListId.value,
+      page: val,
+    },
+  });
 };
+
 // 监听路由参数变化
 watch(
   () => router.currentRoute.value,
@@ -188,7 +194,7 @@ watch(
   }
 );
 </script>
- 
+
 <style lang="scss" scoped>
 .playlist,
 .loading {
@@ -273,14 +279,19 @@ watch(
 
     .tag {
       margin-top: 20px;
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
 
       .tags {
-        margin-right: 8px;
-        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: $mainSecondaryColor;
+          color: $mainColor;
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
       }
     }
   }
