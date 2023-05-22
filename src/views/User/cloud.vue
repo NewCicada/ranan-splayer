@@ -1,12 +1,8 @@
 <template>
   <div class="cloud">
     <DataLists :listData="cloudData" />
-    <Pagination
-      :totalCount="totalCount"
-      :pageNumber="pageNumber"
-      @pageSizeChange="pageSizeChange"
-      @pageNumberChange="pageNumberChange"
-    />
+    <Pagination :totalCount="totalCount" :pageNumber="pageNumber" @pageSizeChange="pageSizeChange"
+      @pageNumberChange="pageNumberChange" />
   </div>
 </template>
 
@@ -50,7 +46,7 @@ const getCloudData = (limit = 30, offset = 0) => {
       $message.error("搜索内容为空");
     }
     // 请求后回顶
-    $mainContent.scrollIntoView({ behavior: "smooth" });
+    if ($mainContent) $mainContent.scrollIntoView({ behavior: "smooth" });
   });
 };
 

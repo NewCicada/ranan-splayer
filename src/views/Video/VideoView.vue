@@ -28,11 +28,7 @@
             <n-skeleton text style="width: 60%" />
           </div>
           <div class="content">
-            <Comment
-              v-for="item in commentData.hotComments"
-              :key="item"
-              :commentData="item"
-            />
+            <Comment v-for="item in commentData.hotComments" :key="item" :commentData="item" />
           </div>
         </div>
         <div class="allComments" ref="allCommentsRef">
@@ -45,18 +41,10 @@
             <n-skeleton text style="width: 60%" />
           </div>
           <div class="content">
-            <Comment
-              v-for="item in commentData.allComments"
-              :key="item"
-              :commentData="item"
-            />
+            <Comment v-for="item in commentData.allComments" :key="item" :commentData="item" />
           </div>
         </div>
-        <Pagination
-          :totalCount="commentsCount"
-          :showSizePicker="false"
-          @pageNumberChange="pageNumberChange"
-        />
+        <Pagination :totalCount="commentsCount" :showSizePicker="false" @pageNumberChange="pageNumberChange" />
       </div>
     </section>
     <section class="simiVideo">
@@ -129,8 +117,6 @@ let commentsCount = ref(0);
 // 获取视频数据
 const getVideoData = (id) => {
   getVideoDetail(id).then((res) => {
-    // 请求后回顶
-    $mainContent.scrollIntoView({ behavior: "smooth" });
     videoData.value = res.data;
     let requests = res.data.brs.map((v) => {
       return getVideoUrl(id, v.br);
@@ -156,6 +142,8 @@ const getVideoData = (id) => {
         $message.error("视频加载失败，请重试");
       });
   });
+  // 请求后回顶
+  if ($mainContent) $mainContent.scrollIntoView({ behavior: "smooth" });
   // 获取相似视频
   getSimiVideo(id).then((res) => {
     simiVideo.value = [];
@@ -239,50 +227,62 @@ watch(
 
   display: flex;
   flex-direction: row;
+
   @media (max-width: 990px) {
     flex-direction: column;
   }
+
   .mainVideo {
     flex: 1;
+
     :deep(.plyr) {
       border-radius: 8px;
       overflow: hidden;
     }
+
     .info {
       margin-top: 20px;
+
       .title {
         font-size: 3.5vh;
         font-weight: bold;
       }
+
       .artists {
         font-size: 2vh;
         opacity: 0.8;
         margin-top: 2px;
       }
+
       .num {
         margin-top: 8px;
         display: flex;
         flex-direction: row;
         font-size: 2vh;
         opacity: 0.8;
+
         span {
           display: flex;
           flex-direction: row;
           align-items: center;
           cursor: pointer;
           transition: all 0.3s;
+
           &::after {
             content: "·";
             margin: 0 6px;
           }
+
           &:nth-last-child(1) {
             &::after {
               display: none;
             }
           }
+
           &:hover {
             color: $mainColor;
           }
+
           .n-icon {
             margin-right: 6px;
             transform: translateY(-1px);
@@ -290,11 +290,14 @@ watch(
         }
       }
     }
+
     .comment {
       margin-top: 20px;
+
       .hotComments,
       .allComments {
         margin-top: 40px;
+
         .count {
           font-size: 13px;
           margin-left: 4px;
@@ -303,17 +306,20 @@ watch(
       }
     }
   }
+
   .simiVideo {
     width: 20vw;
     min-width: 200px;
     max-width: 400px;
     margin-left: 30px;
+
     @media (max-width: 990px) {
       max-width: 100%;
       width: 100%;
       margin-left: 0;
       margin-top: 40px;
     }
+
     .videolists {
       :deep(.n-grid) {
         @media (min-width: 990px) {
@@ -322,5 +328,4 @@ watch(
       }
     }
   }
-}
-</style>
+}</style>

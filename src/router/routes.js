@@ -30,27 +30,27 @@ const routes = [
     redirect: '/search/songs',
     children: [
       {
-        path: '/search/songs',
+        path: 'songs',
         name: 's-songs',
         component: () => import('@/views/Search/songs.vue'),
       },
       {
-        path: '/search/artists',
+        path: 'artists',
         name: 's-artists',
         component: () => import('@/views/Search/artists.vue'),
       },
       {
-        path: '/search/albums',
+        path: 'albums',
         name: 's-albums',
         component: () => import('@/views/Search/albums.vue'),
       },
       {
-        path: '/search/videos',
+        path: 'videos',
         name: 's-videos',
         component: () => import('@/views/Search/videos.vue'),
       },
       {
-        path: '/search/playlists',
+        path: 'playlists',
         name: 's-playlists',
         component: () => import('@/views/Search/playlists.vue'),
       },
@@ -95,6 +95,24 @@ const routes = [
       title: '发现',
     },
     component: DiscoverView,
+    redirect: '/discover/playlists',
+    children: [
+      {
+        path: 'playlists',
+        name: 'dsc-playlists',
+        component: () => import('@/views/Discover/playlists.vue'),
+      },
+      {
+        path: 'toplists',
+        name: 'dsc-toplists',
+        component: () => import('@/views/Discover/toplists.vue'),
+      },
+      {
+        path: 'artists',
+        name: 'dsc-artists',
+        component: () => import('@/views/Discover/artists.vue'),
+      },
+    ],
   },
   {
     path: '/playlist',

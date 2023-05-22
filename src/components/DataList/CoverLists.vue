@@ -1,27 +1,12 @@
 <template>
   <div class="coverlists">
     <Transition mode="out-in">
-      <n-grid
-        x-gap="20"
-        y-gap="26"
-        responsive="screen"
-        :cols="columns"
-        :collapsed="gridCollapsed"
-        :collapsed-rows="gridCollapsedRows"
-        v-if="listData[0]"
-      >
-        <n-gi
-          class="item"
-          v-for="item in listData"
-          :key="item"
-          @click="toLink(item.id)"
-        >
+      <n-grid x-gap="20" y-gap="26" responsive="screen" :cols="columns" :collapsed="gridCollapsed"
+        :collapsed-rows="gridCollapsedRows" v-if="listData[0]">
+        <n-gi class="item" v-for="item in listData" :key="item" @click="toLink(item.id)">
           <div class="cover">
-            <n-avatar
-              class="coverImg"
-              :src="item.cover.replace(/^http:/, 'https:') + '?param=300y300'"
-              fallback-src="/images/pic/default.png"
-            />
+            <n-avatar class="coverImg" :src="item.cover.replace(/^http:/, 'https:') + '?param=300y300'"
+              fallback-src="/images/pic/default.png" />
             <n-icon class="play" :component="PlayArrowRound" />
             <div class="description">
               <div class="num" v-if="listType == 'playList'">
@@ -42,16 +27,8 @@
           </div>
         </n-gi>
       </n-grid>
-      <n-grid
-        v-else
-        class="loading"
-        x-gap="20"
-        y-gap="26"
-        :cols="columns"
-        responsive="screen"
-        :collapsed="gridCollapsed"
-        :collapsed-rows="gridCollapsedRows"
-      >
+      <n-grid v-else class="loading" x-gap="20" y-gap="26" :cols="columns" responsive="screen" :collapsed="gridCollapsed"
+        :collapsed-rows="gridCollapsedRows">
         <n-gi class="item" v-for="n in loadingNum" :key="n">
           <n-skeleton class="pic" :sharp="false" />
           <n-skeleton text :repeat="1" />
@@ -122,6 +99,7 @@ const toLink = (id) => {
 
 <style lang="scss" scoped>
 .coverlists {
+
   .v-enter-active,
   .v-leave-active {
     transition: opacity 0.3s ease;
@@ -131,9 +109,11 @@ const toLink = (id) => {
   .v-leave-to {
     opacity: 0;
   }
+
   .item {
     width: 100%;
     height: 100%;
+
     .cover {
       display: flex;
       align-items: center;
@@ -143,12 +123,14 @@ const toLink = (id) => {
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s;
+
       .coverImg {
         border-radius: 8px;
         width: 100%;
         height: 100%;
         transition: all 0.3s;
       }
+
       .play {
         opacity: 0;
         position: absolute;
@@ -161,6 +143,7 @@ const toLink = (id) => {
         transform: scale(0.8);
         transition: all 0.3s;
       }
+
       .description {
         position: absolute;
         right: 0;
@@ -172,62 +155,76 @@ const toLink = (id) => {
         padding: 4px 8px;
         border-top-left-radius: 8px;
         transition: all 0.3s;
+
         .num {
           display: flex;
           flex-direction: row;
           align-items: center;
+
           .n-icon {
             margin-right: 2px;
+            transform: translateY(-1px);
           }
         }
       }
+
       &:hover {
         .coverImg {
           filter: brightness(0.8);
           transform: scale(1.1);
         }
+
         .play {
           transform: scale(1);
           opacity: 1;
         }
+
         .description {
           opacity: 0;
         }
       }
+
       &:active {
         transform: scale(0.98);
       }
     }
+
     .title {
       display: flex;
       flex-direction: column;
       margin-top: 12px;
+
       .name {
         // font-size: 2vh;
         font-size: 15px;
         -webkit-line-clamp: 2;
         transition: all 0.3s;
         cursor: pointer;
+
         &:hover {
           opacity: 1;
           color: $mainColor;
         }
       }
+
       .by {
         font-size: 12px;
         opacity: 0.6;
         transition: all 0.3s;
         cursor: pointer;
+
         &:hover {
           opacity: 1;
           color: $mainColor;
         }
       }
+
       .artists {
         font-size: 12px;
       }
     }
   }
+
   .loading {
     .pic {
       padding-bottom: 100%;

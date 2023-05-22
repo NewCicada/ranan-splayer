@@ -2,13 +2,9 @@
   <div class="paplaylists">
     <n-h3 class="title" prefix="bar">
       推荐歌单
-      <span class="more">更多</span>
+      <span class="more" @click="router.push('/discover/playlists')">更多</span>
     </n-h3>
-    <CoverLists
-      :listData="personalizedData"
-      :loadingNum="12"
-      :gridCollapsed="true"
-    />
+    <CoverLists :listData="personalizedData" :loadingNum="12" :gridCollapsed="true" />
   </div>
 </template>
 
@@ -49,19 +45,23 @@ onMounted(() => {
 .paplaylists {
   margin-top: 40px;
   padding: 0 4px;
+
   .title {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-left: 16px;
+
     .more {
       font-size: 14px;
       transition: all 0.3s;
       cursor: pointer;
+
       &::after {
         content: ">";
         margin-left: 6px;
       }
+
       &:hover {
         color: $mainColor;
       }

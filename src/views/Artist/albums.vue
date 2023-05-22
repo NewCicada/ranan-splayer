@@ -1,12 +1,8 @@
 <template>
   <div class="albums">
     <CoverLists :listData="artistData" listType="album" />
-    <Pagination
-      :totalCount="totalCount"
-      :pageNumber="pageNumber"
-      @pageSizeChange="pageSizeChange"
-      @pageNumberChange="pageNumberChange"
-    />
+    <Pagination :totalCount="totalCount" :pageNumber="pageNumber" @pageSizeChange="pageSizeChange"
+      @pageNumberChange="pageNumberChange" />
   </div>
 </template>
 
@@ -49,10 +45,8 @@ const getArtistAblumsData = (id, limit = 30, offset = 0) => {
     } else {
       $message.error("搜索内容为空");
     }
-    nextTick(() => {
-      // 请求后回顶并结束加载条
-      $mainContent.scrollIntoView({ behavior: "smooth" });
-    });
+    // 请求后回顶并结束加载条
+    if $mainContent.scrollIntoView({ behavior: "smooth" });
   });
 };
 
