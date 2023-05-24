@@ -1,14 +1,8 @@
 <template>
-  <n-pagination
-    class="pagination"
-    :display-order="['pages', 'size-picker', 'quick-jumper']"
-    :item-count="totalCount"
-    :page-sizes="pageSizes"
-    v-model:page="currentPageNumber"
-    v-model:page-size="currentPageSize"
-    :show-size-picker="showSizePicker"
-    :show-quick-jumper="showQuickJumper"
-  >
+  <n-pagination v-if="totalCount > currentPageSize" class="pagination"
+    :display-order="['pages', 'size-picker', 'quick-jumper']" :item-count="totalCount" :page-sizes="pageSizes"
+    v-model:page="currentPageNumber" v-model:page-size="currentPageSize" :show-size-picker="showSizePicker"
+    :show-quick-jumper="showQuickJumper">
     <template #prefix="{ itemCount }"> 共 {{ itemCount }} 项 </template>
     <template #goto> 前往 </template>
   </n-pagination>
@@ -99,9 +93,11 @@ onMounted(() => {
     :deep(.n-pagination-prefix) {
       display: none;
     }
+
     :deep(.n-pagination-quick-jumper) {
       display: none;
     }
+
     :deep(.n-select) {
       display: none;
     }
