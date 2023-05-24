@@ -16,8 +16,13 @@
             }}
           </span>
           <div v-if="music.getPlaySongData" class="message">
-            <AllArtists class="text-hidden" :artistsData="music.getPlaySongData.artist" />
-            <span class="ablum" @click="
+            <AllArtists :artistsData="[
+              music.getPlaySongData.artist[0],
+              music.getPlaySongData.artist[1]
+                ? music.getPlaySongData.artist[1]
+                : null,
+            ]" :class="music.getPlaySongData.artist.length > 2 ? 'more' : null" />
+            <span class="ablum text-hidden" @click="
               routerJump('/album', {
                 id: music.getPlaySongData
                   ? music.getPlaySongData.album.id
@@ -172,9 +177,14 @@ watch(
           width: 100%;
           color: #ffffffcc;
 
+          .more {
+            &::after {
+              content: "/...";
+              margin-left: 4px;
+            }
+          }
+
           .ablum {
-            display: flex;
-            align-items: center;
             transition: all 0.3s;
 
             &:hover {

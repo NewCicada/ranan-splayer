@@ -1,223 +1,112 @@
 <template>
   <Transition mode="out-in">
     <div class="datalists" v-if="listData[0]">
-      <n-card
-        hoverable
-        :class="
-          music.getPlaySongData
-            ? music.getPlaySongData.id == item.id
-              ? 'songs play'
-              : 'songs'
+      <n-card hoverable :class="music.getPlaySongData
+          ? music.getPlaySongData.id == item.id
+            ? 'songs play'
             : 'songs'
-        "
-        :content-style="{
-          padding: '16px',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }"
-        v-for="item in listData"
-        :key="item"
-        @dblclick="
-          setting.listClickMode === 'dblclick' ? playSong(listData, item) : null
-        "
-        @click="checkCanClick(listData, item)"
-        @contextmenu="openRightMenu($event, item)"
-      >
-        <n-avatar
-          class="pic"
-          :src="
-            item.album && item.album.picUrl
-              ? item.album.picUrl.replace(/^http:/, 'https:') + '?param=60y60'
-              : null
-          "
-          fallback-src="/images/pic/default.png"
-        />
+          : 'songs'
+        " :content-style="{
+    padding: '16px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  }" v-for="item in listData" :key="item" @dblclick="
+  setting.listClickMode === 'dblclick' ? playSong(listData, item) : null
+  " @click="checkCanClick(listData, item)" @contextmenu="openRightMenu($event, item)">
+        <n-avatar class="pic" :src="item.album && item.album.picUrl
+            ? item.album.picUrl.replace(/^http:/, 'https:') + '?param=60y60'
+            : null
+          " fallback-src="/images/pic/default.png" />
         <div class="name">
           <div class="title">
-            <n-text
-              class="text-hidden"
-              depth="2"
-              v-html="item.name"
-              @click.stop="jumpLink(item.id, 1)"
-            />
-            <n-tag
-              v-if="item.fee == 1"
-              class="vip"
-              round
-              :bordered="false"
-              size="small"
-            >
+            <n-text class="text-hidden" depth="2" v-html="item.name" @click.stop="jumpLink(item.id, 1)" />
+            <n-tag v-if="item.fee == 1" class="vip" round :bordered="false" size="small">
               VIP
             </n-tag>
-            <n-tag
-              v-if="item.pc"
-              class="cloud"
-              round
-              type="info"
-              size="small"
-              :bordered="false"
-            >
+            <n-tag v-if="item.pc" class="cloud" round type="info" size="small" :bordered="false">
               云盘
             </n-tag>
           </div>
           <div class="meta">
             <AllArtists class="text-hidden" :artistsData="item.artist" />
-            <n-text
-              class="alia text-hidden"
-              depth="3"
-              v-if="item.alia[0]"
-              v-html="item.alia[0]"
-            />
+            <n-text class="alia text-hidden" depth="3" v-if="item.alia[0]" v-html="item.alia[0]" />
           </div>
         </div>
         <div class="album" v-if="!hideAlbum">
-          <n-text
-            v-html="item.album.name"
-            @click.stop="jumpLink(item.album.id, 10)"
-          />
+          <n-text v-html="item.album.name" @click.stop="jumpLink(item.album.id, 10)" />
         </div>
         <div class="action">
-          <n-icon
-            class="like"
-            size="20"
-            :component="
-              music.getSongIsLike(item.id) ? FavoriteRound : FavoriteBorderRound
-            "
-            @click.stop="
-              music.getSongIsLike(item.id)
-                ? music.changeLikeList(item.id, false)
-                : music.changeLikeList(item.id, true)
-            "
-          />
-          <n-icon
-            class="more"
-            size="20"
-            :component="MoreHorizRound"
-            @click.stop="openDrawer(item)"
-          />
+          <n-icon class="like" size="20" :component="music.getSongIsLike(item.id) ? FavoriteRound : FavoriteBorderRound
+            " @click.stop="
+    music.getSongIsLike(item.id)
+      ? music.changeLikeList(item.id, false)
+      : music.changeLikeList(item.id, true)
+    " />
+          <n-icon class="more" size="20" :component="MoreHorizRound" @click.stop="openDrawer(item)" />
         </div>
         <n-text class="time" v-html="item.time" />
       </n-card>
       <!-- 右键菜单 -->
-      <n-dropdown
-        style="--n-font-size: 14px; --n-border-radius: 6px"
-        placement="bottom-start"
-        trigger="manual"
-        size="large"
-        :x="rightMenuX"
-        :y="rightMenuY"
-        :options="rightMenuOptions"
-        :show="rightMenuShow"
-        :on-clickoutside="onClickoutside"
-        @select="rightMenuShow = false"
-      />
+      <n-dropdown style="--n-font-size: 14px; --n-border-radius: 6px" placement="bottom-start" trigger="manual"
+        size="large" :x="rightMenuX" :y="rightMenuY" :options="rightMenuOptions" :show="rightMenuShow"
+        :on-clickoutside="onClickoutside" @select="rightMenuShow = false" />
       <!-- 移动端抽屉 -->
-      <n-drawer
-        class="drawer"
-        v-model:show="drawerShow"
-        placement="bottom"
-        height="60vh"
-        style="border-radius: 8px 8px 0 0"
-      >
-        <n-drawer-content
-          v-if="drawerData"
-          :native-scrollbar="false"
-          body-content-style="padding: 0"
-          closable
-        >
+      <n-drawer class="drawer" v-model:show="drawerShow" placement="bottom" height="60vh"
+        style="border-radius: 8px 8px 0 0">
+        <n-drawer-content v-if="drawerData" :native-scrollbar="false" body-content-style="padding: 0" closable>
           <template #header style="display: flex; align-items: center">
             <div class="header">
-              <n-avatar
-                class="pic"
-                :size="48"
-                :src="
-                  drawerData.album.picUrl.replace(/^http:/, 'https:') +
-                  '?param=60y60'
-                "
-                fallback-src="/images/pic/default.png"
-              />
+              <n-avatar class="pic" :size="48" :src="drawerData.album.picUrl.replace(/^http:/, 'https:') +
+                '?param=60y60'
+                " fallback-src="/images/pic/default.png" />
               <div class="name">
-                <n-text
-                  class="text-hidden"
-                  depth="2"
-                  v-html="drawerData.name"
-                  @click.stop="jumpLink(drawerData.id, 1)"
-                />
-                <AllArtists
-                  class="text-hidden"
-                  :artistsData="drawerData.artist"
-                />
+                <n-text class="text-hidden" depth="2" v-html="drawerData.name" @click.stop="jumpLink(drawerData.id, 1)" />
+                <AllArtists class="text-hidden" :artistsData="drawerData.artist" />
               </div>
             </div>
           </template>
           <div class="menu">
-            <div
-              class="item"
-              @click="
-                () => {
-                  playSong(listData, drawerData);
-                  drawerShow = false;
-                }
-              "
-            >
+            <div class="item" @click="() => {
+                playSong(listData, drawerData);
+                drawerShow = false;
+              }
+              ">
               <n-icon size="20" :component="PlayArrowRound" />
               <n-text>立即播放</n-text>
             </div>
-            <div
-              class="item"
-              @click="
-                () => {
-                  music.addSongToNext(drawerData);
-                  drawerShow = false;
-                }
-              "
-            >
+            <div class="item" @click="() => {
+                music.addSongToNext(drawerData);
+                drawerShow = false;
+              }
+              ">
               <n-icon size="20" :component="SlowMotionVideoRound" />
               <n-text>下一首播放</n-text>
             </div>
-            <div
-              class="item"
-              @click="router.push(`/comment?id=${drawerData.id}`)"
-            >
+            <div class="item" @click="router.push(`/comment?id=${drawerData.id}`)">
               <n-icon size="20" :component="MessageFilled" />
               <n-text>前往评论区</n-text>
             </div>
-            <div
-              class="item"
-              v-if="drawerData.mv"
-              @click="router.push(`/video?id=${drawerData.mv}`)"
-            >
+            <div class="item" v-if="drawerData.mv" @click="router.push(`/video?id=${drawerData.mv}`)">
               <n-icon size="20" :component="OndemandVideoRound" />
               <n-text>观看 MV</n-text>
             </div>
-            <div
-              class="item"
-              @click="
-                () => {
-                  copySongLink(drawerData.id);
-                  drawerShow = false;
-                }
-              "
-            >
+            <div class="item" @click="() => {
+                copySongLink(drawerData.id);
+                drawerShow = false;
+              }
+              ">
               <n-icon size="20" :component="InsertLinkRound" />
               <n-text>复制歌曲链接</n-text>
             </div>
             <div class="item">
               <n-icon size="20" :component="AccountCircleRound" />
-              <n-text
-                >歌手：
-                <AllArtists
-                  class="text-hidden"
-                  :artistsData="drawerData.artist"
-                />
+              <n-text>歌手：
+                <AllArtists class="text-hidden" :artistsData="drawerData.artist" />
               </n-text>
             </div>
-            <div
-              class="item"
-              @click="router.push(`/album?id=${drawerData.album.id}`)"
-            >
+            <div class="item" @click="router.push(`/album?id=${drawerData.album.id}`)">
               <n-icon size="20" :component="AlbumRound" />
               <n-text>专辑：{{ drawerData.album.name }}</n-text>
             </div>
@@ -414,6 +303,7 @@ const jumpLink = (id, type) => {
 .v-leave-to {
   opacity: 0;
 }
+
 .datalists {
   .songs {
     border-radius: 8px;
@@ -421,10 +311,12 @@ const jumpLink = (id, type) => {
     overflow: hidden;
     transition: all 0.3s;
     cursor: pointer;
+
     &:hover {
       border-color: $mainColor;
       box-shadow: 0 1px 2px -2px #f55e5526, 0 3px 6px 0 #f55e5530,
         0 5px 12px 4px #f55e5505;
+
       .action {
         .like {
           opacity: 1;
@@ -432,19 +324,23 @@ const jumpLink = (id, type) => {
         }
       }
     }
+
     // &:active {
     //   transform: scale(0.99);
     // }
     &.play {
-      background-color:  $mainSecondaryColor;
+      background-color: $mainSecondaryColor;
       border-color: $mainColor;
+
       a,
       span,
       .n-icon {
         color: $mainColor;
       }
+
       .artists {
         :deep(.artist) {
+
           .name,
           .line {
             color: $mainColor;
@@ -452,12 +348,15 @@ const jumpLink = (id, type) => {
         }
       }
     }
+
     @media (max-width: 768px) {
+
       .album,
       .time {
         display: none;
       }
     }
+
     .pic {
       width: 50px;
       height: 50px;
@@ -465,91 +364,116 @@ const jumpLink = (id, type) => {
       border-radius: 8px;
       margin-right: 16px;
     }
+
     .name {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
       padding-right: 20px;
+
       .title {
         font-size: 16px;
         display: flex;
         align-items: center;
         flex-direction: row;
+
         .n-text {
           -webkit-line-clamp: 2;
           font-weight: bold;
           transition: all 0.3s;
+
           &:hover {
             color: $mainColor;
           }
         }
+
         .n-tag {
           margin-left: 8px;
           height: 18px;
         }
+
         .vip {
           color: #fff;
           background-color: #ec4141;
         }
       }
+
       .meta {
         display: flex;
-        align-items: center;
         font-size: 13px;
+        flex-direction: column;
+        .artists {
+          margin-top: 2px;
+        }
+
         .alia {
-          &::before {
+          margin-top: 2px;
+          font-size: 12px;
+          opacity: 0.8;
+          /*  &::before {
             content: "·";
             margin: 0 4px;
-          }
+          } */
         }
       }
     }
+
     .album {
       flex: 1;
       padding-right: 20px;
+
       .n-text {
         transition: all 0.3s;
+
         &:hover {
           color: $mainColor;
         }
       }
     }
+
     .action {
       width: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
+
       @media (max-width: 768px) {
         .like {
           display: none;
         }
       }
+
       @media (min-width: 768px) {
         .more {
           display: none;
         }
       }
+
       .like {
         cursor: pointer;
         opacity: 0;
         transform: scale(0.8);
         color: $mainColor;
         transition: all 0.3s;
+
         &:hover {
           transform: scale(1.2);
         }
+
         &:active {
           transform: scale(1);
         }
       }
     }
+
     .time {
       width: 40px;
       text-align: center;
     }
   }
 }
+
 .loading {
   margin: 40px 0;
   display: flex;
@@ -557,25 +481,31 @@ const jumpLink = (id, type) => {
   justify-content: center;
   align-items: center;
 }
+
 .drawer {
   .header {
     display: flex;
     align-items: center;
+
     .pic {
       margin-right: 12px;
       border-radius: 8px;
     }
+
     .name {
       pointer-events: none;
+
       .n-text {
         font-size: 16px;
         margin-bottom: 6px;
       }
+
       .artists {
         font-size: 12px;
       }
     }
   }
+
   .menu {
     .item {
       padding: 12px 24px;
@@ -584,12 +514,15 @@ const jumpLink = (id, type) => {
       flex-direction: row;
       cursor: pointer;
       transition: all 0.3s;
+
       &:hover {
         background-color: var(--n-close-color-hover);
       }
+
       .n-icon {
         margin-right: 8px;
       }
+
       .n-text {
         transform: translateY(1px);
         display: flex;
