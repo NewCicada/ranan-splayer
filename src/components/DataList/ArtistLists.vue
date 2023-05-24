@@ -1,7 +1,7 @@
 <template>
   <div class="artistlists">
     <Transition mode="out-in">
-      <n-grid x-gap="30" y-gap="34" cols="4 s:5 l:6" responsive="screen" :collapsed="gridCollapsed"
+      <n-grid x-gap="30" y-gap="34" cols="3 mb:4 s:5 l:6" responsive="screen" :collapsed="gridCollapsed"
         :collapsed-rows="gridCollapsedRows" v-if="listData[0]">
         <n-gi class="item" v-for="item in listData" :key="item" @click="router.push(`/artist?id=${item.id}`)">
           <div class="cover">
@@ -12,8 +12,8 @@
           <div class="name text-hidden">{{ item.name }}</div>
         </n-gi>
       </n-grid>
-      <n-grid v-else class="loading" x-gap="20" y-gap="26" cols="4 s:5 m:6" responsive="screen" :collapsed="gridCollapsed"
-        :collapsed-rows="gridCollapsedRows">
+      <n-grid v-else class="loading" x-gap="20" y-gap="26" cols="3 mb:4 s:5 l:6" responsive="screen"
+        :collapsed="gridCollapsed" :collapsed-rows="gridCollapsedRows">
         <n-gi class="item" v-for="n in loadingNum" :key="n">
           <n-skeleton class="pic" :sharp="false" />
           <n-skeleton text style="width: 60%" />

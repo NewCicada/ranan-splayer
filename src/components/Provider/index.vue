@@ -1,13 +1,14 @@
 <template>
   <!-- 全局配置组件 -->
-  <n-config-provider
-    :locale="zhCN"
-    :date-locale="dateZhCN"
-    :theme="theme"
-    :theme-overrides="themeOverrides"
-    abstract
-    inline-theme-disabled
-  >
+  <n-config-provider :locale="zhCN" :date-locale="dateZhCN" :theme="theme" :theme-overrides="themeOverrides" :breakpoints="{
+    xs: 0,
+    mb: 480,
+    s: 640,
+    m: 1024,
+    l: 1280,
+    xl: 1536,
+    xxl: 1920,
+  }" abstract inline-theme-disabled>
     <n-loading-bar-provider>
       <n-dialog-provider>
         <n-notification-provider>

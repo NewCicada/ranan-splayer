@@ -22,9 +22,8 @@
 
 <script setup>
 import { getArtistList } from "@/api";
-import ArtistLists from "@/components/DataList/ArtistLists.vue";
 
-
+const router = useRouter()
 // 歌手数据
 let artistsData = ref([]);
 
