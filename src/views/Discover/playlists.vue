@@ -119,13 +119,14 @@ const getPlaylistData = (
 };
 // 更换标签名
 const changeTagName = (name) => {
-  router.push({
-    path: "/discover/playlists",
-    query: {
-      page: 1,
-      cat: name,
-    },
-  });
+  playlistsData.value = [],
+    router.push({
+      path: "/discover/playlists",
+      query: {
+        page: 1,
+        cat: name,
+      },
+    });
   catModelShow.value = false;
 };
 // 每页个数数据变化
