@@ -85,7 +85,7 @@
               <n-text>观看 MV</n-text>
             </div>
             <div class="item" @click="() => {
-              copySongLink(drawerData.id);
+              copySongData(drawerData.id);
               drawerShow = false;
             }
               ">
@@ -102,11 +102,29 @@
               <n-icon size="20" :component="AlbumRound" />
               <n-text>专辑：{{ drawerData.album.name }}</n-text>
             </div>
+            <div v-if="router.currentRoute.value.name == 'cloud'" class="item" @click="() => {
+              cloudMatchValue.sid = drawerData.id;
+              cloudMatchBeforeData = drawerData;
+              cloudMatchModel = true;
+              drawerShow = false;
+            }
+              ">
+              <n-icon size="20" :component="InsertPageBreakRound" />
+              <n-text>歌曲信息纠正</n-text>
+            </div>
+            <div v-if="router.currentRoute.value.name == 'cloud'" class="item" @click="() => {
+                delCloudSong(drawerData);
+                drawerShow = false;
+              }
+              ">
+              <n-icon size="20" :component="DeleteRound" />
+              <n-text>从云盘中删除</n-text>
+            </div>
           </div>
         </n-drawer-content>
       </n-drawer>
       <!-- 歌曲信息纠正 -->
-      <n-modal style="width: 60vw; min-width: min(24rem, 100vw)" v-model:show="cloudMatchModel" preset="card"
+      <n-modal style="width: 70vh; min-width: min(24rem, 100vw)" v-model:show="cloudMatchModel" preset="card"
         title="歌曲信息纠正" :bordered="false" :on-after-leave="closeCloudMatch">
         <n-form class="cloud-match" :label-width="80" :model="cloudMatchValue">
           <n-form-item label="原歌曲信息">
@@ -200,12 +218,14 @@ let cloudMatchValue = ref({
   asid: null,
 });
 
-// 复制歌曲链接
-const copySongLink = (id) => {
+// 复制歌曲链接或ID
+const copySongData = (id, url = true) => {
   if (navigator.clipboard) {
     try {
-      navigator.clipboard.writeText(`https://music.163.com/#/song?id=${id}`);
-      $message.success("歌曲链接复制成功");
+      navigator.clipboard.writeText(
+        url ? `https://music.163.com/#/song?id=${id}` : id
+      );
+      $message.success(`歌曲${url ? "链接" : " ID "}复制成功`);
     } catch (err) {
       $message.error("复制失败：", err);
     }
