@@ -1,27 +1,13 @@
 <template>
   <div class="smallSongData">
-    <n-avatar
-      class="pic"
-      :size="48"
-      :src="
-        songDetail && songDetail.album
-          ? songDetail.album.picUrl.replace(/^http:/, 'https:') + '?param=60y60'
-          : '/images/pic/default.png'
-      "
-      fallback-src="/images/pic/default.png"
-    />
+    <n-avatar class="pic" :size="48" :src="songDetail && songDetail.album
+      ? songDetail.album.picUrl.replace(/^http:/, 'https:') + '?param=60y60'
+      : '/images/pic/default.png'
+      " fallback-src="/images/pic/default.png" />
     <div class="name" :style="notJump ? 'pointer-events: none' : null">
-      <n-text
-        class="text-hidden"
-        depth="2"
-        v-html="songDetail ? songDetail.name : '暂无歌曲'"
-        @click.stop="router.push(`/song?id=${songDetail.id}`)"
-      />
-      <AllArtists
-        v-if="songDetail && songDetail.artist"
-        class="text-hidden"
-        :artistsData="songDetail.artist"
-      />
+      <n-text class="text-hidden" depth="2" v-html="songDetail ? songDetail.name : '获取失败'"
+        @click.stop="router.push(`/song?id=${songDetail.id}`)" />
+      <AllArtists v-if="songDetail && songDetail.artist" class="text-hidden" :artistsData="songDetail.artist" />
     </div>
   </div>
 </template>
@@ -43,7 +29,7 @@ const props = defineProps({
   },
   // 通过歌曲 ID 获取
   getDataByID: {
-    type: Number,
+    type: String,
     default: null,
   },
 });
@@ -88,20 +74,25 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-items: center;
+
   .pic {
     margin-right: 12px;
     border-radius: 8px;
   }
+
   .name {
     line-height: 1.6;
+
     .n-text {
       font-size: 16px;
       transition: all 0.3s;
       cursor: pointer;
+
       &:hover {
         color: $mainColor;
       }
     }
+
     .artists {
       font-size: 12px;
     }

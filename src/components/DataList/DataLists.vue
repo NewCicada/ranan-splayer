@@ -2,10 +2,10 @@
   <Transition mode="out-in">
     <div class="datalists" v-if="listData[0]">
       <n-card hoverable :class="music.getPlaySongData
-        ? music.getPlaySongData.id == item.id
-          ? 'songs play'
+          ? music.getPlaySongData.id == item.id
+            ? 'songs play'
+            : 'songs'
           : 'songs'
-        : 'songs'
         " :content-style="{
     padding: '16px',
     display: 'flex',
@@ -16,8 +16,8 @@
   setting.listClickMode === 'dblclick' ? playSong(listData, item) : null
   " @click="checkCanClick(listData, item)" @contextmenu="openRightMenu($event, item)">
         <n-avatar class="pic" :src="item.album && item.album.picUrl
-          ? item.album.picUrl.replace(/^http:/, 'https:') + '?param=60y60'
-          : '/images/pic/default.png'
+            ? item.album.picUrl.replace(/^http:/, 'https:') + '?param=60y60'
+            : '/images/pic/default.png'
           " fallback-src="/images/pic/default.png" />
         <div class="name">
           <div class="title">
@@ -53,7 +53,7 @@
         size="large" :x="rightMenuX" :y="rightMenuY" :options="rightMenuOptions" :show="rightMenuShow"
         :on-clickoutside="onClickoutside" @select="rightMenuShow = false" />
       <!-- 移动端抽屉 -->
-      <n-drawer class="drawer" v-model:show="drawerShow" placement="bottom" height="60vh"
+      <n-drawer class="drawer" v-model:show="drawerShow" placement="bottom" height="70vh"
         style="border-radius: 8px 8px 0 0">
         <n-drawer-content v-if="drawerData" :native-scrollbar="false" body-content-style="padding: 0" closable>
           <template #header>
@@ -61,17 +61,17 @@
           </template>
           <div class="menu">
             <div class="item" @click="() => {
-              playSong(listData, drawerData);
-              drawerShow = false;
-            }
+                playSong(listData, drawerData);
+                drawerShow = false;
+              }
               ">
               <n-icon size="20" :component="PlayArrowRound" />
               <n-text>立即播放</n-text>
             </div>
             <div class="item" @click="() => {
-              music.addSongToNext(drawerData);
-              drawerShow = false;
-            }
+                music.addSongToNext(drawerData);
+                drawerShow = false;
+              }
               ">
               <n-icon size="20" :component="SlowMotionVideoRound" />
               <n-text>下一首播放</n-text>
@@ -85,9 +85,9 @@
               <n-text>观看 MV</n-text>
             </div>
             <div class="item" @click="() => {
-              copySongData(drawerData.id);
-              drawerShow = false;
-            }
+                copySongData(drawerData.id);
+                drawerShow = false;
+              }
               ">
               <n-icon size="20" :component="InsertLinkRound" />
               <n-text>复制歌曲链接</n-text>
@@ -103,11 +103,11 @@
               <n-text>专辑：{{ drawerData.album.name }}</n-text>
             </div>
             <div v-if="router.currentRoute.value.name == 'cloud'" class="item" @click="() => {
-              cloudMatchValue.sid = drawerData.id;
-              cloudMatchBeforeData = drawerData;
-              cloudMatchModel = true;
-              drawerShow = false;
-            }
+                cloudMatchValue.sid = drawerData.id;
+                cloudMatchBeforeData = drawerData;
+                cloudMatchModel = true;
+                drawerShow = false;
+              }
               ">
               <n-icon size="20" :component="InsertPageBreakRound" />
               <n-text>歌曲信息纠正</n-text>
@@ -124,7 +124,7 @@
         </n-drawer-content>
       </n-drawer>
       <!-- 歌曲信息纠正 -->
-      <n-modal style="width: 70vh; min-width: min(24rem, 100vw)" v-model:show="cloudMatchModel" preset="card"
+      <n-modal style="width: 60vw; min-width: min(24rem, 100vw)" v-model:show="cloudMatchModel" preset="card"
         title="歌曲信息纠正" :bordered="false" :on-after-leave="closeCloudMatch">
         <n-form class="cloud-match" :label-width="80" :model="cloudMatchValue">
           <n-form-item label="原歌曲信息">
@@ -169,12 +169,11 @@ import {
   AccountCircleRound,
   AlbumRound,
   OndemandVideoRound,
+  InsertPageBreakRound,
+  DeleteRound,
 } from "@vicons/material";
 import { musicStore, settingStore, userStore } from "@/store/index";
-import { useRouter } from "vue-router";
 import { setCloudDel, setCloudMatch } from "@/api";
-import AllArtists from "./AllArtists.vue";
-import SmallSongData from "./SmallSongData.vue";
 
 const router = useRouter();
 const music = musicStore();
@@ -289,24 +288,7 @@ const openRightMenu = (e, data) => {
         show: router.currentRoute.value.name == "cloud" ? true : false,
         props: {
           onClick: () => {
-            $dialog.warning({
-              title: "歌曲删除",
-              content: "确认从云盘中删除歌曲 " + data.name + " ？",
-              positiveText: "删除",
-              negativeText: "取消",
-              onPositiveClick: () => {
-                setCloudDel(data.id).then((res) => {
-                  if (res.code == 200) {
-                    $message.success("云盘歌曲删除成功");
-                    props.listData.forEach((v, i) => {
-                      if (v.id == data.id) props.listData.splice(i, 1);
-                    });
-                  } else {
-                    $message.error("云盘歌曲删除失败");
-                  }
-                });
-              },
-            });
+            delCloudSong(data);
           },
         },
       },
@@ -327,11 +309,20 @@ const openRightMenu = (e, data) => {
         type: "divider",
       },
       {
+        key: "copyId",
+        label: "复制歌曲 ID",
+        props: {
+          onClick: () => {
+            copySongData(data.id, false);
+          },
+        },
+      },
+      {
         key: "copy",
         label: "复制链接",
         props: {
           onClick: () => {
-            copySongLink(data.id);
+            copySongData(data.id);
           },
         },
       },
@@ -356,6 +347,28 @@ const onClickoutside = () => {
   rightMenuShow.value = false;
 };
 
+// 云盘歌曲删除
+const delCloudSong = (data) => {
+  $dialog.warning({
+    title: "歌曲删除",
+    content: "确认从云盘中删除歌曲 " + data.name + " ？",
+    positiveText: "删除",
+    negativeText: "取消",
+    onPositiveClick: () => {
+      setCloudDel(data.id).then((res) => {
+        if (res.code == 200) {
+          $message.success("云盘歌曲删除成功");
+          props.listData.forEach((v, i) => {
+            if (v.id == data.id) props.listData.splice(i, 1);
+          });
+        } else {
+          $message.error("云盘歌曲删除失败");
+        }
+      });
+    },
+  });
+};
+
 // 歌曲纠正
 const setCloudMatchBtn = (data) => {
   if (data.sid == data.asid) {
@@ -375,7 +388,7 @@ const setCloudMatchBtn = (data) => {
         }
       });
     } else {
-      $message.error("非正常歌曲，无法匹配");
+      $message.error("非正常歌曲 ID，无法匹配");
     }
   }
 };

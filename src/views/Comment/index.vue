@@ -1,10 +1,22 @@
 <template>
   <div class="comment">
+    <n-card class="goback" v-if="music.getPlaySongData && music.getPlaySongData.id != songId"
+      @click="router.push(`/comment?id=${music.getPlaySongData.id}`)" content-style="padding: 6px">前往当前歌曲评论
+    </n-card>
     <div class="title" v-if="songId">
       <span class="key">全部评论</span>
-      <n-card class="goback" v-if="music.getPlaySongData && music.getPlaySongData.id != songId"
-        @click="router.push(`/comment?id=${music.getPlaySongData.id}`)" content-style="padding: 6px">前往当前歌曲评论
+      <n-card class="song">
+        <SmallSongData :getDataByID="songId" />
       </n-card>
+    </div>
+    <div class="title" v-else>
+      <span class="key">缺少必要参数</span>
+      <br />
+      <n-button strong secondary @click="router.go(-1)" style="margin-top: 20px">
+        返回上一页
+      </n-button>
+    </div>
+    <div class="commentData" v-if="songId && commentData.allComments[0]">
       <div class="hotComments" v-if="commentData.hotComments[0]">
         <n-h6 prefix="bar"> 热门评论 </n-h6>
         <div class="loading" v-if="!commentData.hotComments[0]">
@@ -28,34 +40,30 @@
           <Comment v-for="item in commentData.allComments" :key="item" :commentData="item" />
         </div>
       </div>
-      <Pagination :totalCount="commentsCount" :showSizePicker="false" @pageNumberChange="pageNumberChange" />
-    </div>
-    <div class="title" v-else>
-      <span class="key">当前未播放歌曲</span>
-      <br />
-      <n-button strong secondary @click="router.go(-1)" style="margin-top: 20px">
-        返回上一级
-      </n-button>
+      <Pagination :totalCount="commentsCount" :pageNumber="pageNumber" :showSizePicker="false"
+        @pageNumberChange="pageNumberChange" />
     </div>
   </div>
 </template>
- 
+
 <script setup>
 import { musicStore } from "@/store/index";
 import { getComment } from "@/api";
-import Comment from "@/components/Comment/CommentView.vue";
-import Pagination from "@/components/Pagination/index.vue";
-
 const router = useRouter();
 const music = musicStore();
 
 // 歌曲信息
 let songId = ref(router.currentRoute.value.query.id);
+let pageNumber = ref(
+  router.currentRoute.value.query.page
+    ? Number(router.currentRoute.value.query.page)
+    : 1
+);
 
 // 评论数据
 let commentData = reactive({
-  hotComments: [],//热门评论
-  allComments: [],//全部评论
+  hotComments: [], // 热门评论
+  allComments: [], // 全部评论
 });
 
 // 评论总数
@@ -87,22 +95,57 @@ const getCommentData = (id, offset = 0) => {
   });
 };
 
+// 当前页数数据变化
+const pageNumberChange = (val) => {
+  router.push({
+    path: "/comment",
+    query: {
+      id: songId.value,
+      page: val,
+    },
+  });
+};
+
 onMounted(() => {
   // 获取评论数据
-  getCommentData(songId.value);
+  if (songId.value) getCommentData(songId.value, (pageNumber.value - 1) * 20);
 });
 
-//监听路由参数变化
-watch(() => router.currentRoute.value, (val) => {
-  if (val.name == 'comment') {
-    songId.value = val.query.id;
-    getCommentData(val.query.id)
+// 监听路由参数变化
+watch(
+  () => router.currentRoute.value,
+  (val) => {
+    val.query.page
+      ? (pageNumber.value = Number(val.query.page))
+      : (pageNumber.value = 1);
+    if (val.name == "comment") {
+      songId.value = val.query.id;
+      getCommentData(val.query.id, (pageNumber.value - 1) * 20);
+    }
   }
-})
+);
 </script>
- 
+
 <style lang="scss" scoped>
 .comment {
+  .goback {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    z-index: 2;
+
+    :hover {
+      background-color: var(--n-border-color);
+    }
+
+    :deep(.n-card__content) {
+      transition: all 0.3s;
+      font-size: 12px;
+    }
+  }
+
   .title {
     margin-top: 30px;
     margin-bottom: 20px;
@@ -113,22 +156,9 @@ watch(() => router.currentRoute.value, (val) => {
       margin-right: 8px;
     }
 
-    .goback {
-      cursor: pointer;
-      position: absolute;
-      top: 0;
-      left: 0;
-      text-align: center;
-      z-index: 2;
-
-      :hover {
-        background-color: var(--n-border-color);
-      }
-
-      :deep(.n-card__content) {
-        transition: all 0.3s;
-        font-size: 12px;
-      }
+    .song {
+      margin-top: 20px;
+      border-radius: 8px;
     }
   }
 
