@@ -2,44 +2,25 @@
   <div class="artists">
     <div class="menu">
       <n-space class="initial">
-        <n-tag
-          round
-          v-for="item in artistInitials"
-          :key="item"
-          :bordered="false"
-          :type="item.key == artistInitialChoose ? 'primary' : 'default'"
-          @click="artistInitialChange(item.key)"
-        >
+        <n-tag round v-for="item in artistInitials" :key="item" :bordered="false"
+          :type="item.key == artistInitialChoose ? 'primary' : 'default'" @click="artistInitialChange(item.key)">
           {{ item.value }}
         </n-tag>
       </n-space>
       <n-space class="category">
-        <n-tag
-          round
-          :class="item.length > 2 ? 'hidden' : 'show'"
-          v-for="(item, index) in artistTypeNames"
-          :key="item"
-          :bordered="false"
-          :type="index == artistTypeNamesChoose ? 'primary' : 'default'"
-          @click="artistTypeChange(index)"
-        >
+        <n-tag round :class="item.length > 2 ? 'hidden' : 'show'" v-for="(item, index) in artistTypeNames" :key="item"
+          :bordered="false" :type="index == artistTypeNamesChoose ? 'primary' : 'default'"
+          @click="artistTypeChange(index)">
           {{ item }}
         </n-tag>
       </n-space>
     </div>
     <ArtistLists :listData="artistsData" :loadingNum="30" />
-    <n-button
-      v-if="hasMore"
-      class="more"
-      size="large"
-      strong
-      secondary
-      round
-      :loading="loading"
-      @click="loadingMore"
-    >
-      加载更多
-    </n-button>
+    <n-space justify="center">
+      <n-button v-if="hasMore" class="more" size="large" strong secondary round :loading="loading" @click="loadingMore">
+        加载更多
+      </n-button>
+    </n-space>
   </div>
 </template>
 
@@ -111,7 +92,7 @@ const getArtistListData = (
   initial = -1
 ) => {
   getArtistList(type, area, limit, offset, initial).then((res) => {
-    if (res.artists) {
+    if (res.artists[0]) {
       // 是否还有更多
       res.more ? (hasMore.value = true) : (hasMore.value = false);
       loading.value = false;
@@ -201,60 +182,72 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .artists {
-  text-align: center;
   .menu {
     margin-bottom: 16px;
+
     @media (max-width: 768px) {
       .initial {
         display: none !important;
       }
     }
+
     @media (max-width: 480px) {
       .category {
         gap: initial !important;
+
         .hidden {
           display: none !important;
         }
+
         .show {
           margin-right: 12px;
           margin-bottom: 8px;
         }
       }
     }
+
     .n-tag {
       font-size: 13px;
       padding: 0 16px;
       cursor: pointer;
       transition: all 0.3s;
+
       &:hover {
         background-color: $mainSecondaryColor;
         color: $mainColor;
       }
+
       &:active {
         transform: scale(0.9);
       }
     }
+
     .category {
       margin-top: 18px;
     }
   }
+
   .artistlists {
     @media (max-width: 480px) {
       padding-top: 12px;
     }
   }
+
   .more {
     margin-top: 40px;
     width: 140px;
     font-size: 16px;
     transition: all 0.3s;
+
     &:hover {
       background-color: $mainSecondaryColor;
       color: $mainColor;
     }
+
     &:active {
       transform: scale(0.95);
     }
+
     :deep(.n-button__icon) {
       margin-right: 12px;
     }
