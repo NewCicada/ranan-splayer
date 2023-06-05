@@ -36,7 +36,6 @@
 <script setup>
 import { musicStore } from "@/store/index";
 import { RemoveCircleOutlineFilled } from "@vicons/material";
-import AllArtists from "./AllArtists.vue";
 import CollapseTransition from "@ivanv/vue-collapse-transition/src/CollapseTransition.vue";
 
 const music = musicStore();
@@ -53,25 +52,6 @@ const changeIndex = (index) => {
   music.persistData.playSongIndex = index,
     music.setPlayState(true);
 };
-
-// 监听页面是否打开
-watch(
-  () => music.showPlayList,
-  (val) => {
-    if (val) {
-      const el = document.getElementById(
-        `playlist${music.persistData.playSongIndex}`
-      );
-      if (el) {
-        console.log(111);
-        el.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }
-    }
-  }
-);
 </script>
  
 <style lang="scss" scoped>
@@ -83,22 +63,28 @@ watch(
   border-radius: 8px;
   border-top: none;
   box-shadow: var(--n-box-shadow);
+
   :deep(.n-card__content) {
     .n-scrollbar {
       max-height: 70vh;
+
       .n-scrollbar-content {
         padding: 12px;
+
         .songs {
           border-radius: 8px;
           cursor: pointer;
           margin-bottom: 12px;
           transition: all 0.3s;
+
           &:nth-last-of-type(1) {
             margin-bottom: 0;
           }
+
           &:active {
             transform: scale(0.98);
           }
+
           &:hover {
             .n-card__content {
               .right {
@@ -108,6 +94,7 @@ watch(
               }
             }
           }
+
           &.play {
             color: $mainColor;
             background-color: $mainSecondaryColor;
@@ -121,6 +108,7 @@ watch(
             justify-content: center;
             margin-right: 12px;
           }
+
           .right {
             flex: 1;
             position: relative;
@@ -129,14 +117,17 @@ watch(
             align-items: flex-start;
             justify-content: center;
             padding-right: 42px;
+
             .name {
               pointer-events: none;
             }
+
             .artists {
               opacity: 0.8;
               font-size: 13px;
               pointer-events: none;
             }
+
             .remove {
               position: absolute;
               border-radius: 8px;
@@ -146,6 +137,7 @@ watch(
               transition: all 0.3s;
               color: #999;
               padding: 6px;
+
               &:hover {
                 color: $mainColor;
                 background-color: var(--n-border-color);
@@ -155,6 +147,7 @@ watch(
         }
       }
     }
+
     .n-scrollbar-rail {
       width: 0;
     }

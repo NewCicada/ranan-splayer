@@ -2,12 +2,7 @@
   <div class="paartists">
     <n-h3 class="title" prefix="bar">
       歌手推荐
-      <n-tabs
-        class="tab"
-        :default-value="-1"
-        size="small"
-        @update:value="tabChange"
-      >
+      <n-tabs class="tab" :default-value="-1" size="small" @update:value="tabChange">
         <n-tab :name="-1"> 全部 </n-tab>
         <n-tab :name="7"> 华语 </n-tab>
         <n-tab :name="96"> 欧美 </n-tab>
@@ -48,6 +43,7 @@ const getArtistListData = (type = -1, area = -1, limit = 6) => {
 // Tab 切换
 const tabChange = (value) => {
   console.log(value);
+  artistsData.value = [];
   getArtistListData(-1, value);
 };
 
@@ -60,30 +56,37 @@ onMounted(() => {
 .paartists {
   margin-top: 40px;
   padding: 0 4px;
+
   .title {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-left: 16px;
+
     .tab {
       width: auto;
       margin-right: auto;
       margin-left: 20px;
+
       @media (max-width: 440px) {
         display: none;
       }
+
       :deep(.n-tabs-tab-pad) {
         width: 12px;
       }
     }
+
     .more {
       font-size: 14px;
       transition: all 0.3s;
       cursor: pointer;
+
       &::after {
         content: ">";
         margin-left: 6px;
       }
+
       &:hover {
         color: $mainColor;
       }

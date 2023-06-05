@@ -6,9 +6,9 @@
     <div class="data">
       <div class="pic" @click.stop="music.setBigPlayerState(true)">
         <img :src="music.getPlaySongData
-            ? music.getPlaySongData.album.picUrl.replace(/^http:/, 'https:') +
-            '?param=50y50'
-            : '/images/pic/default.png'
+          ? music.getPlaySongData.album.picUrl.replace(/^http:/, 'https:') +
+          '?param=50y50'
+          : '/images/pic/default.png'
           " alt="pic" />
         <n-icon class="open" size="30" :component="KeyboardArrowUpFilled" />
       </div>
@@ -34,8 +34,8 @@
     <div :class="music.getPersonalFmMode ? 'menu fm' : 'menu'">
       <div class="like" v-if="music.getPlaySongData">
         <n-icon class="like-icon" size="24" :component="music.getSongIsLike(music.getPlaySongData.id)
-            ? FavoriteRound
-            : FavoriteBorderRound
+          ? FavoriteRound
+          : FavoriteBorderRound
           " @click.stop="
     music.getSongIsLike(music.getPlaySongData.id)
       ? music.changeLikeList(music.getPlaySongData.id, false)
@@ -44,10 +44,10 @@
       </div>
       <div class="pattern">
         <n-icon :component="persistData.playSongMode === 'normal'
-            ? PlayCycle
-            : persistData.playSongMode === 'random'
-              ? ShuffleOne
-              : PlayOnce
+          ? PlayCycle
+          : persistData.playSongMode === 'random'
+            ? ShuffleOne
+            : PlayOnce
           " @click="music.setPlaySongMode()" />
       </div>
       <div class="playlist">
@@ -57,12 +57,12 @@
       </div>
       <div class="volume">
         <n-icon size="28" :component="persistData.playVolume == 0
-            ? VolumeOffRound
-            : persistData.playVolume < 0.4
-              ? VolumeMuteRound
-              : persistData.playVolume < 0.7
-                ? VolumeDownRound
-                : VolumeUpRound
+          ? VolumeOffRound
+          : persistData.playVolume < 0.4
+            ? VolumeMuteRound
+            : persistData.playVolume < 0.7
+              ? VolumeDownRound
+              : VolumeUpRound
           " @click.stop="volumeMute" />
         <n-slider class="volmePg" v-model:value="persistData.playVolume" :tooltip="false" :min="0" :max="1" :step="0.01"
           @click.stop />
@@ -229,7 +229,7 @@ const sliderTooltip = (val) => {
 
 // 歌曲播放失败事件
 const songError = () => {
-  console.log("播放出错");
+  console.log("播放失败,请重试");
   if (music.getPlaylists[0]) getPlaySongData(music.getPlaySongData.id);
   if (music.getPlayState) songInOrOut("play");
 };

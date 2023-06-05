@@ -8,13 +8,13 @@
             <n-avatar class="coverImg" :src="item.cover.replace(/^http:/, 'https:') + '?param=300y300'"
               fallback-src="/images/pic/default.png" />
             <n-icon class="play" :component="PlayArrowRound" />
-            <div class="description">
+            <div class="description" v-if="listType != 'topList'">
               <div class="num" v-if="listType == 'playList'">
                 <n-icon :component="HeadsetFilled" />
-                <span>{{ item.playCount }}</span>
+                <span class="des">{{ item.playCount }}</span>
               </div>
               <div class="num" v-else>
-                <span>{{ item.time }}</span>
+                <span class="des">{{ item.time }}</span>
               </div>
             </div>
           </div>
@@ -22,6 +22,9 @@
             <span class="name text-hidden">{{ item.name }}</span>
             <span v-if="listType == 'playList' && item.artist" class="by">
               By {{ item.artist.nickname }}
+            </span>
+            <span v-else-if="listType == 'topList' && item.update" class="by">
+              {{ item.update }}
             </span>
             <AllArtists class="text-hidden" v-else :artistsData="item.artist" />
           </div>
@@ -79,7 +82,7 @@ const props = defineProps({
 
 // 链接跳转
 const toLink = (id) => {
-  if (props.listType == "playList") {
+  if (props.listType == "playList" || props.listType == "topList") {
     router.push({
       path: "/playlist",
       query: {
@@ -152,7 +155,7 @@ const toLink = (id) => {
         background-color: #00000030;
         font-size: 12px;
         backdrop-filter: blur(4px);
-        padding: 4px 8px;
+        padding: 6px;
         border-top-left-radius: 8px;
         transition: all 0.3s;
 
@@ -162,8 +165,11 @@ const toLink = (id) => {
           align-items: center;
 
           .n-icon {
-            margin-right: 2px;
-            transform: translateY(-1px);
+          margin-right: 2px;
+          }
+
+          .des {
+            line-height: normal;
           }
         }
       }

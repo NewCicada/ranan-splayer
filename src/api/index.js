@@ -477,6 +477,13 @@ export const getNewAlbum = () => {
   })
 }
 
+// 获取排行版数据
+export const getToplist = (detail = true) => {
+  return axios({
+    method: 'GET',
+    url: `/toplist${detail ? '/detail' : null}`,
+  })
+}
 /*
  * 登录后部分
  */
