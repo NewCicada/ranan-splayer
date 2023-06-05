@@ -2,10 +2,10 @@
   <Transition mode="out-in">
     <div class="datalists" v-if="listData[0]">
       <n-card hoverable :class="music.getPlaySongData
-          ? music.getPlaySongData.id == item.id
-            ? 'songs play'
-            : 'songs'
+        ? music.getPlaySongData.id == item.id
+          ? 'songs play'
           : 'songs'
+        : 'songs'
         " :content-style="{
     padding: '16px',
     display: 'flex',
@@ -16,8 +16,8 @@
   setting.listClickMode === 'dblclick' ? playSong(listData, item) : null
   " @click="checkCanClick(listData, item)" @contextmenu="openRightMenu($event, item)">
         <n-avatar class="pic" :src="item.album && item.album.picUrl
-            ? item.album.picUrl.replace(/^http:/, 'https:') + '?param=60y60'
-            : '/images/pic/default.png'
+          ? item.album.picUrl.replace(/^http:/, 'https:') + '?param=60y60'
+          : '/images/pic/default.png'
           " fallback-src="/images/pic/default.png" />
         <div class="name">
           <div class="title">
@@ -61,17 +61,17 @@
           </template>
           <div class="menu">
             <div class="item" @click="() => {
-                playSong(listData, drawerData);
-                drawerShow = false;
-              }
+              playSong(listData, drawerData);
+              drawerShow = false;
+            }
               ">
               <n-icon size="20" :component="PlayArrowRound" />
               <n-text>立即播放</n-text>
             </div>
             <div class="item" @click="() => {
-                music.addSongToNext(drawerData);
-                drawerShow = false;
-              }
+              music.addSongToNext(drawerData);
+              drawerShow = false;
+            }
               ">
               <n-icon size="20" :component="SlowMotionVideoRound" />
               <n-text>下一首播放</n-text>
@@ -85,9 +85,9 @@
               <n-text>观看 MV</n-text>
             </div>
             <div class="item" @click="() => {
-                copySongData(drawerData.id);
-                drawerShow = false;
-              }
+              copySongData(drawerData.id);
+              drawerShow = false;
+            }
               ">
               <n-icon size="20" :component="InsertLinkRound" />
               <n-text>复制歌曲链接</n-text>
@@ -103,19 +103,19 @@
               <n-text>专辑：{{ drawerData.album.name }}</n-text>
             </div>
             <div v-if="router.currentRoute.value.name == 'cloud'" class="item" @click="() => {
-                cloudMatchValue.sid = drawerData.id;
-                cloudMatchBeforeData = drawerData;
-                cloudMatchModel = true;
-                drawerShow = false;
-              }
+              cloudMatchValue.sid = drawerData.id;
+              cloudMatchBeforeData = drawerData;
+              cloudMatchModel = true;
+              drawerShow = false;
+            }
               ">
               <n-icon size="20" :component="InsertPageBreakRound" />
               <n-text>歌曲信息纠正</n-text>
             </div>
             <div v-if="router.currentRoute.value.name == 'cloud'" class="item" @click="() => {
-                delCloudSong(drawerData);
-                drawerShow = false;
-              }
+              delCloudSong(drawerData);
+              drawerShow = false;
+            }
               ">
               <n-icon size="20" :component="DeleteRound" />
               <n-text>从云盘中删除</n-text>
@@ -542,8 +542,8 @@ const jumpLink = (id, type) => {
         }
 
         .vip {
-          color: #fff;
-          background-color: #ec4141;
+          color: $mainColor;
+          background-color: $mainSecondaryColor;
         }
       }
 
