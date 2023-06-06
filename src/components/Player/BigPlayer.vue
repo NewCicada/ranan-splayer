@@ -8,11 +8,10 @@
       ">
       <div class="gray" />
       <n-icon class="close" size="40" :component="KeyboardArrowDownFilled" @click="music.setBigPlayerState(false)" />
-
       <n-icon class="screenfull" size="36" :component="screenfullIcon" @click="screenfullChange" />
       <div :class="music.getPlaySongLyric[0] ? 'all' : 'all noLrc'">
         <div class="left">
-          <PlayCover v-if="setting.playerStyle === 'cover'" />
+          <PlayerCover v-if="setting.playerStyle === 'cover'" />
           <PlayerRecord v-else />
         </div>
         <div class="right" @mouseenter="menuShow = true" @mouseleave="menuShow = false">
@@ -39,18 +38,26 @@
                 ? 'lrc-all cover'
                 : 'lrc-all record'
                 " v-if="music.getPlaySongLyric[0]" :style="setting.lyricsPosition === 'center'
-    ? 'text-align: center'
+    ? { textAlign: 'center', paddingRight: '0' }
     : null
     ">
                 <div class="placeholder"></div>
-                <div v-for="(item, index) in music.getPlaySongLyric"
-                  :class="music.getPlaySongLyricIndex == index ? 'lrc on' : 'lrc'" :key="item" :id="'lrc' + index"
+                <div :class="music.getPlaySongLyricIndex == index ? 'lrc on' : 'lrc'
+                  " :style="{ marginBottom: setting.lyricsFontSize - 1.6 + 'vh' }"
+                  v-for="(item, index) in music.getPlaySongLyric" :key="item" :id="'lrc' + index"
                   @click="jumpTime(item.time)">
-                  <span class="lyric">{{ item.lyric }}</span>
-                  <span v-show="music.getPlaySongTransl &&
-                    setting.getShowTransl &&
-                    item.lyricFy
-                    " class="lyric-fy">{{ item.lyricFy }}</span>
+                  <div class="lrc-text" :style="{
+                    transformOrigin:
+                      setting.lyricsPosition === 'center' ? 'center' : null,
+                  }">
+                    <span class="lyric" :style="{ fontSize: setting.lyricsFontSize + 'vh' }">{{ item.lyric }}
+                    </span>
+                    <span v-show="music.getPlaySongTransl &&
+                      setting.getShowTransl &&
+                      item.lyricFy
+                      " :style="{ fontSize: setting.lyricsFontSize - 0.4 + 'vh' }" class="lyric-fy">{{ item.lyricFy
+  }}</span>
+                  </div>
                 </div>
                 <div class="placeholder"></div>
               </div>
@@ -253,6 +260,10 @@ watch(() => music.getPlaySongLyricIndex,
   .screenfull {
     right: 80px;
     padding: 2px;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   .all {
@@ -265,7 +276,7 @@ watch(() => music.getPlaySongLyricIndex,
 
     &.noLrc {
       .left {
-        transform: translateX(25vh);
+        transform: translateX(27.75vh);
       }
 
       @media (max-width: 768px) {
@@ -292,7 +303,7 @@ watch(() => music.getPlaySongLyricIndex,
         .lrcShow {
           .lrc-all {
             height: 70vh !important;
-            padding-right: 0 !important;
+            padding-right: 16% !important;
           }
 
           .data,
@@ -305,20 +316,23 @@ watch(() => music.getPlaySongLyricIndex,
     }
 
     .left {
-      flex: 1;
-      padding: 0 4vw;
+      // flex: 1;
+      // padding: 0 4vw;
+      width: 50%;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       justify-content: center;
       transition: all 0.3s ease-in-out;
+      padding-right: 4vw;
+      box-sizing: border-box;
     }
 
     .right {
       flex: 1;
       height: 100%;
+      padding-left: 2vw;
 
-      // padding: 0 4vw;
       .lrcShow {
         height: 100%;
         display: flex;
@@ -359,7 +373,7 @@ watch(() => music.getPlaySongLyricIndex,
         }
 
         .lrc-all {
-          padding-right: 14%;
+          padding-right: 20%;
           scrollbar-width: none;
           max-width: 460px;
           overflow: auto;
@@ -398,40 +412,59 @@ watch(() => music.getPlaySongLyricIndex,
           .lrc {
             opacity: 0.6;
             transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
+            // display: flex;
+            // flex-direction: column;
             // margin-bottom: 4px;
             // padding: 12px 20px;
             margin-bottom: 0.8vh;
             padding: 1.8vh 3vh;
             border-radius: 8px;
             transition: all 0.3s;
+            transform-origin: center left;
             cursor: pointer;
 
-            .lyric {
+            .lrc-text {
+              display: flex;
+              flex-direction: column;
               transition: all 0.3s;
-              font-size: 2.3vh;
-            }
+              transform-origin: center left;
 
-            .lyric-fy {
-              margin-top: 2px;
-              transition: all 0.3s;
-              opacity: 0.8;
-              font-size: 2vh;
+              .lyric {
+                transition: all 0.3s;
+                // font-size: 2.4vh;
+                transform-origin: center left;
+              }
+
+              .lyric-fy {
+                margin-top: 2px;
+                transition: all 0.3s;
+                opacity: 0.8;
+                // font-size: 2vh;
+                transform-origin: center left;
+              }
             }
 
             &.on {
               opacity: 1;
 
-              .lyric {
-                font-weight: bold;
-                font-size: 3vh;
+              .lrc-text {
+                transform: scale(1.2);
+
+                .lyric {
+                  font-weight: bold;
+                }
               }
 
-              .lyric-fy {
-                font-weight: normal;
-                font-size: 2.3vh;
-              }
+              // .lyric {
+              //   font-weight: bold;
+              //   // font-size: 3vh;
+              //   transform: scale(1.3);
+              // }
+              // .lyric-fy {
+              //   // font-weight: normal;
+              //   // font-size: 2.3vh;
+              //   transform: scale(1.1);
+              // }
             }
 
             &:hover {
@@ -505,5 +538,4 @@ watch(() => music.getPlaySongLyricIndex,
         hsla(0deg, 0%, 100%, 0.6) 85%,
         hsla(0deg, 0%, 100%, 0));
   }
-}
-</style>
+}</style>

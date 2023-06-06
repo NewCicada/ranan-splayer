@@ -140,6 +140,14 @@ watch(
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 0 40px 14px rgb(0 0 0 / 20%);
+    @media (max-width:1200px) {
+      width: 44vh;
+      height: 44vh;
+    }
+    @media (max-width:870px) {
+      width: 40vh;
+      height: 40vh;
+    }
 
     .album {
       width: 100%;
@@ -156,13 +164,18 @@ watch(
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-
+      @media (max-width: 1200px) {
+        width: 43vh;
+      }
+      @media (max-width:870px) {
+        width: 40px;
+      }
       .desc {
         width: 100%;
         padding-right: 4px;
 
         .name {
-          font-size: 3vh;
+          font-size:23px;
           font-weight: bold;
           -webkit-line-clamp: 2;
         }
@@ -173,6 +186,7 @@ watch(
           align-items: center;
           margin: 2px 0 6px;
           font-size: 2vh;
+          font-size: 15px;
           width: 100%;
           color: #ffffffcc;
 

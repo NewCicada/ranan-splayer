@@ -18,6 +18,28 @@
       <div class="name">显示歌词翻译</div>
       <n-switch v-model:value="showTransl" :round="false" />
     </n-card>
+    <n-card class="set-item" :content-style="{
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+    }">
+      <div class="name">歌词文本大小</div>
+      <n-slider v-model:value="lyricsFontSize" :tooltip="false" :max="2.8" :min="2.2" :step="0.01" :marks="{
+        2.4: '默认',
+      }" />
+      <div class="more">
+        <div v-for="n in 3" :key="n" :class="n === 2 ? 'lrc on' : 'lrc'" :style="{
+          margin: n === 2 ? '12px 0' : null,
+          alignItems: lyricsPosition == 'center' ? 'center' : null,
+          transformOrigin:
+            lyricsPosition == 'center' ? 'center' : 'center left',
+        }">
+          <span :style="{ fontSize: lyricsFontSize + 'vh', fontWeight: bold }">这是一句歌词
+          </span>
+          <span :style="{ fontSize: lyricsFontSize - 0.4 + 'vh' }">This is a lyric
+          </span>
+        </div>
+      </div>
+    </n-card>
     <n-card class="set-item">
       <div class="name">播放器样式</div>
       <n-select class="set" v-model:value="playerStyle" :options="playerStyleOptions" />
@@ -47,6 +69,7 @@ const {
   playerStyle,
   musicFrequency,
   listClickMode,
+  lyricsFontSize,
 } = storeToRefs(setting);
 
 // 深浅模式
@@ -59,6 +82,25 @@ let darkOptions = [
     label: "深色模式",
     value: "dark",
   },
+];
+// 歌词位置
+let lyricsFontSizeOptions = [{
+  label: "很少",
+  value: "2",
+},
+{
+  label: "小",
+  value: "2.2",
+}, {
+  label: "默认",
+  value: "2.4",
+}, {
+  label: '大',
+  value: "2.6",
+}, {
+  label: "超大",
+  value: '2.8',
+},
 ];
 
 // 列表模式
@@ -155,6 +197,7 @@ const changeMusicFrequency = () => {
       font-size: 16px;
       display: flex;
       flex-direction: column;
+      padding-right: 20px;
 
       .tip {
         font-size: 12px;
@@ -164,6 +207,30 @@ const changeMusicFrequency = () => {
 
     .set {
       width: 200px;
+
+      @media (max-width: 768px) {
+        width: 140px;
+        min-width: 140px;
+      }
+    }
+
+    .more {
+      padding: 12px;
+      border-radius: 8px;
+      background-color: var(--n-border-color);
+      width: 100%;
+      margin-top: 12px;
+
+      .lrc {
+        opacity: 0.6;
+        display: flex;
+        flex-direction: column;
+
+        &.on {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
     }
   }
 }
