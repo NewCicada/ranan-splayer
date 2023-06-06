@@ -14,7 +14,7 @@ const useSettingDataStore = defineStore('settingData', {
       // 是否显示歌词翻译
       showTransl: true,
       // 歌词大小
-      lyricsFontSize: '10px',
+      lyricsFontSize: 2.4,
       // 歌词位置
       lyricsPosition: 'left',
       // 音乐频谱

@@ -24,15 +24,17 @@
     }">
       <div class="name">歌词文本大小</div>
       <n-slider v-model:value="lyricsFontSize" :tooltip="false" :max="2.8" :min="2.2" :step="0.01" :marks="{
-        2.4: '默认',
+        2.2: '最小', 2.4: '默认',
+        2.8: '最大'
       }" />
       <div class="more">
-        <div v-for="n in 3" :key="n" :class="n === 2 ? 'lrc on' : 'lrc'" :style="{
+        <div v-for=" n  in  3 " :key="n" :class="n === 2 ? 'lrc on' : 'lrc'" :style="{
           margin: n === 2 ? '12px 0' : null,
           alignItems: lyricsPosition == 'center' ? 'center' : null,
           transformOrigin:
             lyricsPosition == 'center' ? 'center' : 'center left',
-        }">
+        }
+          ">
           <span :style="{ fontSize: lyricsFontSize + 'vh', fontWeight: bold }">这是一句歌词
           </span>
           <span :style="{ fontSize: lyricsFontSize - 0.4 + 'vh' }">This is a lyric
@@ -82,25 +84,6 @@ let darkOptions = [
     label: "深色模式",
     value: "dark",
   },
-];
-// 歌词位置
-let lyricsFontSizeOptions = [{
-  label: "很少",
-  value: "2",
-},
-{
-  label: "小",
-  value: "2.2",
-}, {
-  label: "默认",
-  value: "2.4",
-}, {
-  label: '大',
-  value: "2.6",
-}, {
-  label: "超大",
-  value: '2.8',
-},
 ];
 
 // 列表模式
@@ -185,6 +168,7 @@ const changeMusicFrequency = () => {
     width: 100%;
     border-radius: 8px;
     margin-bottom: 12px;
+    box-sizing: border-box;
 
     :deep(.n-card__content) {
       display: flex;
@@ -227,6 +211,7 @@ const changeMusicFrequency = () => {
         flex-direction: column;
 
         &.on {
+          font-weight: bold;
           opacity: 1;
           transform: scale(1.2);
         }
