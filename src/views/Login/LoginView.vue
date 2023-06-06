@@ -6,15 +6,7 @@
     </div>
     <n-card class="qr-img">
       <n-skeleton v-if="!qrImg" height="180px" width="180px" />
-      <QrcodeVue
-        v-else
-        class="qr"
-        :value="qrImg"
-        :size="180"
-        level="H"
-        background="#00000000"
-        foreground="#f55e55"
-      />
+      <QrcodeVue v-else class="qr" :value="qrImg" :size="180" level="H" background="#00000000" foreground="#f55e55" />
     </n-card>
     <span class="tip">{{ qrText }}</span>
   </div>
@@ -38,6 +30,24 @@ let qrCheckInterval = ref(null);
 // 登陆状态弹窗
 let loginStateMessage = null;
 
+// 储存登录信息
+const saveLoginData = (data) => {
+  user.setCookie(data.cookie);
+  // 验证用户登录信息
+  getLoginState().then((res) => {
+    if (res.data.profile) {
+      user.setUserData(res.data.profile);
+      user.userLogin = true;
+      qrText.value = "登录成功";
+      clearInterval(qrCheckInterval.value);
+      router.go(-1);
+    } else {
+      user.userLogOut();
+      $message.error("登录出错,请重试")
+      getQrKeyData();
+    }
+  });
+};
 // 获取二维码登录 key
 const getQrKeyData = () => {
   // 检测是否登录
@@ -85,21 +95,7 @@ const checkQrState = (key) => {
       } else if (res.code == 803) {
         loginStateMessage.destroy();
         user.setCookie(res.cookie);
-        // 储存用户登录信息
-        getLoginState().then((res) => {
-          if (res.data.profile) {
-            user.setUserData(res.data.profile);
-            user.userLogin = true;
-            qrText.value = "登录成功";
-            $message.success("登录成功");
-            clearInterval(qrCheckInterval.value);
-            router.push("/user");
-          } else {
-            user.userLogOut();
-            $message.error("登录出错，请重试");
-            getQrKeyData();
-          }
-        });
+        saveLoginData(res);
       }
     });
   }, 1000);
@@ -122,34 +118,41 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .title {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     img {
       width: 80px;
       height: 80px;
       margin-bottom: 20px;
     }
+
     span {
       font-size: 20px;
       font-weight: bold;
     }
   }
+
   .qr-img {
     width: 220px;
     height: 220px;
     border-radius: 8px;
     margin-top: 16px;
+
     :deep(.n-card__content) {
       display: flex;
       align-items: center;
       justify-content: center;
+
       .n-skeleton {
         border-radius: 8px;
       }
     }
   }
+
   .tip {
     margin-top: 12px;
     opacity: 0.8;

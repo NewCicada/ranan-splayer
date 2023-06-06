@@ -3,9 +3,9 @@
     <div class="left">
       <div class="cover">
         <n-avatar class="coverImg" :src="albumDetail.picUrl
-            ? albumDetail.picUrl.replace(/^http:/, 'https:') +
-            '?param=500y500'
-            : null
+          ? albumDetail.picUrl.replace(/^http:/, 'https:') +
+          '?param=500y500'
+          : null
           " fallback-src="/images/pic/default.png" />
         <img src="/images/pic/album.png" class="album" alt="album" />
       </div>
@@ -46,7 +46,7 @@
           </div>
         </div>
       </div>
-      <DataLists :listData="albumData" />
+      <DataLists :listData="albumData" hideAlbum />
     </div>
   </div>
   <div class="title" v-else-if="!albumId">
@@ -307,4 +307,5 @@ watch(
       margin-bottom: 20px;
     }
   }
-}</style>
+}
+</style>

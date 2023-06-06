@@ -165,7 +165,7 @@ const toLink = (id) => {
           align-items: center;
 
           .n-icon {
-          margin-right: 2px;
+            margin-right: 2px;
           }
 
           .des {
@@ -175,6 +175,8 @@ const toLink = (id) => {
       }
 
       &:hover {
+        box-shadow: 0 15px 30px rgba(0 0 0 /10%);
+
         .coverImg {
           filter: brightness(0.8);
           transform: scale(1.1);

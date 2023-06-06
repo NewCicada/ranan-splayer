@@ -38,6 +38,8 @@ const useMusicDataStore = defineStore('musicData', {
         playSongMode: 'normal',
         // 当前歌曲歌词
         playSongLyric: [],
+        // 当前歌曲歌词播放索引
+        playSongLyricIndex: 0,
         // 当前歌曲播放链接
         playSongLink: null,
         // 当前播放时间
@@ -85,6 +87,10 @@ const useMusicDataStore = defineStore('musicData', {
     // 获取当前歌词
     getPlaySongLyric(state) {
       return state.persistData.playSongLyric
+    },
+    // 获取当前歌曲索引
+    getPlaySongLyricIndex(state) {
+      return state.persistData.playSongLyricIndex
     },
     // 获取当前播放时间
     getPlaySongTime(state) {
@@ -282,10 +288,18 @@ const useMusicDataStore = defineStore('musicData', {
     // 歌曲播放进度
     setPlaySongTime(value) {
       this.persistData.playSongTime = value
-      // 计算进度条应该移动的距离
-      this.persistData.playSongTime.barMoveDistance = Number(
-        (value.currentTime / (value.duration / 100)).toFixed(2)
+      // 计算当前歌词播放索引
+      this.persistData.playSongLyricIndex
+      let index = this.persistData.playSongLyric.findIndex(
+        (v) => v.time > value.currentTime
       )
+      if (index === -1) {
+        // 如果没有找到合适的歌词，则返回最后一句歌词
+        this.persistData.playSongLyricIndex =
+          this.persistData.playSongLyric.length - 1
+      } else {
+        this.persistData.playSongLyricIndex = index - 1
+      }
     },
     // 设置当前播放模式
     setPlaySongMode() {
