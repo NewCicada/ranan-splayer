@@ -6,6 +6,16 @@ import { userStore } from '@/store/index'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {
+        x: 0,
+        y: 0,
+      }
+    }
+  },
 })
 
 // 路由守卫
@@ -17,7 +27,7 @@ router.beforeEach((to, from, next) => {
     getLoginState()
       .then((res) => {
         if (res.data.profile && user.userLogin) {
-          if (user.userLogin && !user.userData.level) user.setUserLevel()
+          if (user.userLogin && !user.userData.level) user.setUserOtherData()
           next()
         } else {
           $message.error('请登录账号后使用')
@@ -30,7 +40,7 @@ router.beforeEach((to, from, next) => {
         return false
       })
   } else {
-    if (user.userLogin && !user.userData.level) user.setUserLevel()
+    if (user.userLogin && !user.userData.level) user.setUserOtherData()
     next()
   }
 })

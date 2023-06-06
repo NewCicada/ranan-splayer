@@ -50,7 +50,7 @@ onMounted(() => {
     .then((res) => {
       if (res.data.profile && user.userLogin) {
         user.userLogin = true;
-        user.setUserLevel();
+        user.setUserOtherData();
       } else {
         user.userLogOut();
       }

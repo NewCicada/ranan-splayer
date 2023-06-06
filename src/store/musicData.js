@@ -15,12 +15,14 @@ const useMusicDataStore = defineStore('musicData', {
       showPlayList: false,
       // 播放状态
       playState: false,
-      // 每日推荐数据
+      // 每日推荐
       dailySongsData: [],
       // 歌单分类
       catList: {},
-      //   精品歌单分类
+      // 精品歌单分类
       highqualityCatList: [],
+      // 用户歌单
+      userPlayLists: [],
       // 持久化数据
       persistData: {
         // 是否处于私人 FM 模式
@@ -88,7 +90,7 @@ const useMusicDataStore = defineStore('musicData', {
     getPlaySongLyric(state) {
       return state.persistData.playSongLyric
     },
-    // 获取当前歌曲索引
+    // 获取当前歌词索引
     getPlaySongLyricIndex(state) {
       return state.persistData.playSongLyricIndex
     },
@@ -107,6 +109,10 @@ const useMusicDataStore = defineStore('musicData', {
     // 获取喜欢音乐列表
     getLikeList(state) {
       return state.persistData.likeList
+    },
+    // 获取用户歌单
+    getUserPlayLists(state) {
+      return state.userPlayLists
     },
   },
   actions: {
@@ -288,6 +294,10 @@ const useMusicDataStore = defineStore('musicData', {
     // 歌曲播放进度
     setPlaySongTime(value) {
       this.persistData.playSongTime = value
+      // 计算进度条应该移动的距离
+      this.persistData.playSongTime.barMoveDistance = Number(
+        (value.currentTime / (value.duration / 100)).toFixed(2)
+      )
       // 计算当前歌词播放索引
       this.persistData.playSongLyricIndex
       let index = this.persistData.playSongLyric.findIndex(
@@ -405,6 +415,10 @@ const useMusicDataStore = defineStore('musicData', {
       }
       $message.success(name + ' 已从播放列表中移除')
       this.persistData.playlists.splice(index, 1)
+    },
+    // 更改用户歌单
+    setUserPlayLists(data) {
+      this.userPlayLists = data
     },
   },
   // 开启数据持久化
