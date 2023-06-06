@@ -24,7 +24,7 @@
           <n-skeleton text style="width: 60%" />
         </div>
         <div class="content">
-          <Comment v-for="item in commentData.hotComments" :key="item" :commentData="item" />
+          <CommentView v-for="item in commentData.hotComments" :key="item" :commentData="item" />
         </div>
       </div>
       <div class="allComments" ref="allCommentsRef">
@@ -37,7 +37,7 @@
           <n-skeleton text style="width: 60%" />
         </div>
         <div class="content">
-          <Comment v-for="item in commentData.allComments" :key="item" :commentData="item" />
+          <CommentView v-for="item in commentData.allComments" :key="item" :commentData="item" />
         </div>
       </div>
       <Pagination :totalCount="commentsCount" :pageNumber="pageNumber" :showSizePicker="false"

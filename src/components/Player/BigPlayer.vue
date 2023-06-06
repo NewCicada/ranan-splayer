@@ -1,17 +1,17 @@
 <template>
   <Transition name="up">
     <div v-show="music.showBigPlayer" class="bplayer" :style="music.getPlaySongData
-      ? 'background-image: url(' +
-      music.getPlaySongData.album.picUrl.replace(/^http:/, 'https:') +
-      '?param=50y50)'
-      : ''
+        ? 'background-image: url(' +
+        music.getPlaySongData.album.picUrl.replace(/^http:/, 'https:') +
+        '?param=50y50)'
+        : ''
       ">
       <div class="gray" />
       <n-icon class="close" size="40" :component="KeyboardArrowDownFilled" @click="music.setBigPlayerState(false)" />
       <n-icon class="screenfull" size="36" :component="screenfullIcon" @click="screenfullChange" />
       <div :class="music.getPlaySongLyric[0] ? 'all' : 'all noLrc'">
         <div class="left">
-          <PlayerCover v-if="setting.playerStyle === 'cover'" />
+          <PlayCover v-if="setting.playerStyle === 'cover'" />
           <PlayerRecord v-else />
         </div>
         <div class="right" @mouseenter="menuShow = true" @mouseleave="menuShow = false">
@@ -35,11 +35,11 @@
                 </div>
               </div>
               <div :class="setting.playerStyle === 'cover'
-                ? 'lrc-all cover'
-                : 'lrc-all record'
+                  ? 'lrc-all cover'
+                  : 'lrc-all record'
                 " v-if="music.getPlaySongLyric[0]" :style="setting.lyricsPosition === 'center'
-    ? { textAlign: 'center', paddingRight: '0' }
-    : null
+      ? { textAlign: 'center', paddingRight: '0' }
+      : null
     ">
                 <div class="placeholder"></div>
                 <div :class="music.getPlaySongLyricIndex == index ? 'lrc on' : 'lrc'
@@ -86,7 +86,7 @@ import {
 import { musicStore, settingStore } from "@/store/index";
 import { useRouter } from "vue-router";
 import MusicFrequency from "@/utils/MusicFrequency.js";
-import screenfull from 'screenfull';
+import screenfull from "screenfull";
 
 const router = useRouter();
 const music = musicStore();
@@ -162,15 +162,17 @@ watch(
     if (val) {
       console.log("开启播放器", music.getPlaySongLyricIndex);
       nextTick(() => {
-        lyricsScroll(music.getPlaySongLyricIndex)
-      })
+        lyricsScroll(music.getPlaySongLyricIndex);
+      });
     }
   }
 );
 
 // 监听歌词滚动
-watch(() => music.getPlaySongLyricIndex,
-  (val) => lyricsScroll(val))
+watch(
+  () => music.getPlaySongLyricIndex,
+  (val) => lyricsScroll(val)
+);
 </script>
 
 <style lang="scss" scoped>
@@ -538,4 +540,5 @@ watch(() => music.getPlaySongLyricIndex,
         hsla(0deg, 0%, 100%, 0.6) 85%,
         hsla(0deg, 0%, 100%, 0));
   }
-}</style>
+}
+</style>

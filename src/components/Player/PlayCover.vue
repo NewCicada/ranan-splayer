@@ -140,11 +140,13 @@ watch(
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 0 40px 14px rgb(0 0 0 / 20%);
-    @media (max-width:1200px) {
+
+    @media (max-width: 1200px) {
       width: 44vh;
       height: 44vh;
     }
-    @media (max-width:870px) {
+
+    @media (max-width: 870px) {
       width: 40vh;
       height: 40vh;
     }
@@ -164,18 +166,22 @@ watch(
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+
       @media (max-width: 1200px) {
-        width: 43vh;
+        width: 44vh;
       }
-      @media (max-width:870px) {
-        width: 40px;
+
+      @media (max-width: 870px) {
+        width: 40vh;
       }
+
       .desc {
         width: 100%;
         padding-right: 4px;
 
         .name {
-          font-size:23px;
+          // font-size: 3vh;
+          font-size: 23px;
           font-weight: bold;
           -webkit-line-clamp: 2;
         }
