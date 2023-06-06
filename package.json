@@ -14,6 +14,7 @@
     "pinia": "^2.0.32",
     "plyr": "^3.7.8",
     "qrcode.vue": "^3.4.0",
+    "screenfull": "^6.0.2",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },

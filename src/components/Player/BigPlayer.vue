@@ -8,6 +8,8 @@
       ">
       <div class="gray" />
       <n-icon class="close" size="40" :component="KeyboardArrowDownFilled" @click="music.setBigPlayerState(false)" />
+
+      <n-icon class="screenfull" size="36" :component="screenfullIcon" @click="screenfullChange" />
       <div :class="music.getPlaySongLyric[0] ? 'all' : 'all noLrc'">
         <div class="left">
           <PlayCover v-if="setting.playerStyle === 'cover'" />
@@ -71,10 +73,13 @@ import {
   KeyboardArrowDownFilled,
   GTranslateFilled,
   MessageFilled,
+  FullscreenRound,
+  FullscreenExitRound,
 } from "@vicons/material";
 import { musicStore, settingStore } from "@/store/index";
 import { useRouter } from "vue-router";
 import MusicFrequency from "@/utils/MusicFrequency.js";
+import screenfull from 'screenfull';
 
 const router = useRouter();
 const music = musicStore();
@@ -90,6 +95,17 @@ let musicFrequency = ref(null);
 // 点击歌词跳转
 const jumpTime = (time) => {
   if ($player) $player.currentTime = time;
+};
+
+// 全屏切换
+let screenfullIcon = shallowRef(FullscreenRound);
+const screenfullChange = () => {
+  if (screenfull.isEnabled) {
+    screenfull.toggle();
+    screenfullIcon.value = screenfull.isFullscreen
+      ? FullscreenRound
+      : FullscreenExitRound;
+  }
 };
 
 // 前往评论
@@ -212,7 +228,8 @@ watch(() => music.getPlaySongLyricIndex,
     z-index: -1;
   }
 
-  .close {
+  .close,
+  .screenfull {
     position: absolute;
     top: 24px;
     right: 24px;
@@ -231,6 +248,11 @@ watch(() => music.getPlaySongLyricIndex,
     &:active {
       transform: scale(1);
     }
+  }
+
+  .screenfull {
+    right: 80px;
+    padding: 2px;
   }
 
   .all {

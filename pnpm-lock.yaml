@@ -19,6 +19,9 @@ dependencies:
   qrcode.vue:
     specifier: ^3.4.0
     version: 3.4.0(vue@3.2.47)
+  screenfull:
+    specifier: ^6.0.2
+    version: 6.0.2
   vue:
     specifier: ^3.2.47
     version: 3.2.47
@@ -4057,6 +4060,11 @@ packages:
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
     dev: true
+
+  /screenfull@6.0.2:
+    resolution: {integrity: sha512-AQdy8s4WhNvUZ6P8F6PB21tSPIYKniic+Ogx0AacBMjKP1GUHN2E9URxQHtCusiwxudnCKkdy4GrHXPPJSkCCw==}
+    engines: {node: ^14.13.1 || >=16.0.0}
+    dev: false
 
   /scule@1.0.0:
     resolution: {integrity: sha512-4AsO/FrViE/iDNEPaAQlb77tf0csuq27EsVpy6ett584EcRTp6pTDLoGWVxCD77y5iU5FauOvhsI4o1APwPoSQ==}
