@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import App from './App.vue'
 import router from './router'
@@ -11,9 +11,19 @@ import 'vfonts/FiraCode.css'
 
 const app = createApp(App)
 
-const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate);
-app.use(pinia);
+// PWA
+navigator.serviceWorker.addEventListener('controllerchange', () => {
+  // 弹出更新提醒
+  console.log('站点已更新,刷新后生效')
+  $message.info('站点已更新,刷新后生效', {
+    closable: true,
+    duration: 0,
+  })
+})
+
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+app.use(pinia)
 
 app.use(router)
 
