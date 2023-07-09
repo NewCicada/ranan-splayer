@@ -3,9 +3,9 @@
     <div class="left">
       <div class="cover">
         <n-avatar class="coverImg" :src="playListDetail.coverImgUrl
-          ? playListDetail.coverImgUrl.replace(/^http:/, 'https:') +
-          '?param=500y500'
-          : null
+            ? playListDetail.coverImgUrl.replace(/^http:/, 'https:') +
+            '?param=500y500'
+            : null
           " fallback-src="/images/pic/default.png" />
         <img src="/images/pic/album.png" class="album" alt="album" />
       </div>
@@ -35,6 +35,21 @@
           {{ item }}
         </n-tag>
       </n-space>
+      <!-- <div class="control" v-if="playListControlShow">
+        <n-space>
+          <n-button strong secondary round>
+            <template #icon>
+              <n-icon :component="EditNoteRound" />
+            </template>
+            编辑
+          </n-button>
+          <n-button strong secondary round type="primary">
+            <template #icon>
+              <n-icon :component="DeleteRound" />
+            </template>
+          </n-button>
+        </n-space>
+      </div> -->
     </div>
     <div class="right">
       <div class="meta">
@@ -78,8 +93,15 @@
 
 <script setup>
 import { getPlayListDetail, getAllPlayList } from "@/api";
+import { useRouter } from "vue-router";
+import { userStore, musicStore } from "@/store";
 import { getSongTime, getLongTime } from "@/utils/timeTools.js";
+import { EditNoteRound, DeleteRound } from "@vicons/material";
+import DataLists from "@/components/DataList/DataLists.vue";
+import Pagination from "@/components/Pagination/index.vue";
 const router = useRouter();
+const user = userStore();
+const music = musicStore();
 
 // 歌单数据
 let playListId = ref(router.currentRoute.value.query.id);

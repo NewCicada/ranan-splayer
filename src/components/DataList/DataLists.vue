@@ -233,7 +233,7 @@ const copySongData = (id, url = true) => {
   }
 };
 
-// 打开右侧菜单
+// 打开右键菜单
 const openRightMenu = (e, data) => {
   e.preventDefault();
   rightMenuShow.value = false;
